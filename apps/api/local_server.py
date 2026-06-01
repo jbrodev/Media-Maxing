@@ -39,6 +39,8 @@ from scripts.services.ai_memory import AIMemoryService
 from scripts.services.analytics import AnalyticsService
 from scripts.services.approval_queue import ApprovalQueueService
 from scripts.services.engagement import EngagementService
+from scripts.services.integration_setup import validate_social_integration_setup
+from scripts.services.local_env import load_local_env_file
 from scripts.services.manual_export import ManualExportService
 from scripts.services.oauth_flow import OAuthFlowService
 from scripts.services.publish_queue import PublishQueueService
@@ -125,6 +127,8 @@ class LocalApiApplication:
             }
         if segments == ["api", "bootstrap"] and method == "GET":
             return self._bootstrap()
+        if segments == ["api", "integration-setup"] and method == "GET":
+            return validate_social_integration_setup().to_dict()
         if segments == ["api", "settings"]:
             if method == "GET":
                 return asdict(load_app_settings(self.database_path))
@@ -471,6 +475,7 @@ class LocalApiApplication:
             ],
             "aiMemory": AIMemoryService(self.database_path).list_memories(status=None),
             "weeklyReports": WeeklyReportService(self.database_path).list_reports(),
+            "integrationSetup": validate_social_integration_setup().to_dict(),
             "localOnly": True,
             "realPublishing": False,
             "realReplySending": False,
@@ -861,10 +866,15 @@ def main() -> None:
         description="Serve the localhost-only SQLite bridge and static web app."
     )
     parser.add_argument("--database", help="Path to the local SQLite database.")
+    parser.add_argument(
+        "--env-file",
+        help="Optional local .env path. Defaults to the repo-root .env when present.",
+    )
     parser.add_argument("--host", default="127.0.0.1", choices=sorted(LOOPBACK_HOSTS))
     parser.add_argument("--port", default=8000, type=int)
     args = parser.parse_args()
 
+    load_local_env_file(args.env_file)
     application = LocalApiApplication(args.database)
     server = LocalApiHttpServer((args.host, args.port), application)
     print(f"Local Social AI Manager running at http://{args.host}:{args.port}")

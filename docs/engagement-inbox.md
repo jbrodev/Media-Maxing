@@ -50,7 +50,8 @@ The screen supports:
 - Local mock AI reply suggestions with editable text, tone, confidence, recommended action, reason summary, and visible safety flags.
 - Local approval, rejection, manual-reply tracking, escalation, spam marking, archive actions, and a reply audit history.
 
-Status changes persist in the browser after refresh. They do not update SQLite until a future local API bridge is added.
+When launched through the localhost bridge, status changes persist to SQLite.
+Direct-file mode persists browser-only demo state after refresh.
 
 Reply approval is local approval only. It never sends content to a social platform. Marking an item replied manually means the owner handled the conversation outside the app.
 
@@ -65,9 +66,7 @@ Reply approval is local approval only. It never sends content to a social platfo
 
 ## Not Built Yet
 
-- Browser-to-SQLite API bridge for Engagement Inbox status changes.
 - Manual engagement entry screen.
 - CSV import parser.
 - Real platform comment/message sync.
-- Browser-to-SQLite wiring for reply suggestions and reply approval actions.
 - Real reply sending.

@@ -6,6 +6,10 @@ The web shell can run through a small localhost-only Python server:
 python -m apps.api.local_server --database data/app.sqlite --port 8000
 ```
 
+The server loads the repo-root `.env` file automatically when it exists. To
+use a different local file, pass `--env-file PATH`. Secret values are never
+printed during loading.
+
 Then open:
 
 ```text
@@ -33,6 +37,7 @@ persist to SQLite:
 - mock engagement ingestion, inbox status updates, reply suggestions, and
   local reply approvals
 - mock connected-account creation, local validation scaffolds, and disconnect
+- server-safe Social Integration Setup status with masked secret fields
 
 The bridge hydrates the existing browser adapters from `/api/bootstrap` so
 the static UI can keep its current rendering code while SQLite remains the
@@ -59,4 +64,3 @@ absolute local source path to it.
 - Mock publish records a local status only.
 - Reply approval records a local decision only.
 - Real publishing and real reply sending remain unavailable.
-

@@ -49,6 +49,7 @@ class WebSocialSetupScreenTest(unittest.TestCase):
         for name in (
             "renderSocialSetup",
             "validateIntegrationSetupConfig",
+            "normalizeServerIntegrationSetup",
             "setupPlatformStatus",
             "maskSetupValue",
             "runSetupMockConnectionTest",
@@ -74,6 +75,7 @@ class WebSocialSetupScreenTest(unittest.TestCase):
         self.assertIn("API access/pricing", self.script)
         self.assertIn("Configured, hidden", self.script)
         self.assertIn("realPublishingAvailable: false", self.script)
+        self.assertIn("snapshot?.integrationSetup", self.script)
 
     def test_social_setup_surface_does_not_show_secret_values_or_token_fields(self):
         browser_surface = self.html + self.script

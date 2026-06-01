@@ -58,15 +58,19 @@ Local-first rules:
 - Keep mock/demo mode working before adding real providers.
 - Keep manual export as the safe publishing path until real publishing is implemented behind strict safety gates.
 
-## Planned Tech Stack
+## Current Tech Stack
 
-No framework or runtime has been installed yet.
+The MVP deliberately uses a small dependency-free local stack:
 
-Planned direction from `AGENTS.md`:
+- Frontend: static HTML, CSS, and JavaScript in `apps/web`.
+- Local API: Python standard-library localhost-only bridge in `apps/api`.
+- Database services: Python and raw SQLite migrations in `scripts`.
 
-- Frontend: Next.js or an existing web framework if one is chosen later.
+Possible later direction from `AGENTS.md`:
+
+- Frontend: Next.js or another web framework only if the static shell becomes too limiting.
 - Desktop: Tauri preferred unless the project later chooses Electron.
-- Backend/API: FastAPI, Node/Nest, or another explicit app framework selected in a future step.
+- Backend/API: keep the current loopback bridge for MVP; adopt a larger framework only when needed.
 - Database: SQLite for MVP.
 - ORM: Prisma or Drizzle for TypeScript, or SQLAlchemy/SQLModel for Python.
 - Media storage: local filesystem under `data/`.
@@ -126,11 +130,14 @@ The web app is currently a static HTML/CSS/JavaScript app. No frontend framework
 For now:
 
 1. Review `AGENTS.md` before making changes.
-2. Copy `.env.example` to `.env` only when a future step needs local configuration.
+2. Copy `.env.example` to `.env` when local server-side configuration is needed.
 3. Do not add real secrets to committed files.
 4. Follow the batch prompts in order.
 5. Run `python -m apps.api.local_server --database data/app.sqlite --port 8000`.
 6. Open `http://127.0.0.1:8000` for the SQLite-backed web shell.
+
+The localhost server automatically loads a repo-root `.env` file when it
+exists. Use `--env-file PATH` only when a different local file is needed.
 
 Opening `apps/web/index.html` directly remains available as a browser-only demo
 fallback. See `docs/local-api-bridge.md`.
@@ -276,7 +283,7 @@ Current status:
 - AI provider abstraction, mock provider, prompt registry, content generation service, Generate screen, draft persistence, Drafts screen, approval workflow, approval queue service, and prompt evaluation fixtures exist.
 - Local scheduling models and service exist.
 - Calendar screen exists in the static web shell.
-- Approved drafts can be scheduled locally in the browser demo adapter.
+- Approved drafts can be scheduled locally through the SQLite-backed browser shell.
 - Local job runner exists for due scheduled posts and preflight.
 - Publish Queue screen exists in the static web shell.
 - Platform requirement matrix and preflight validation service exist.
@@ -293,11 +300,11 @@ Current status:
 - Batch 7 analytics storage foundation now exists for snapshots, aggregate performance metrics, import audits, explainable content insights, AI memory, and weekly reports.
 - Safe fake demo analytics are labeled `mock`; the demo weekly report is labeled `ai_mock`.
 - Local analytics service now supports manual snapshots, deterministic mock metrics, latest-snapshot summaries, breakdowns, rankings, import audits, and rule-based insights.
-- Analytics Dashboard screen now supports local demo summaries, filters, breakdowns, rankings, insight review actions, manual browser snapshots, and clearly labeled mock metric generation. SQLite wiring remains a later API-bridge step.
+- Analytics Dashboard screen now supports SQLite-backed local summaries, filters, breakdowns, rankings, insight review actions, manual snapshots, and clearly labeled mock metric generation.
 - Engagement Inbox database foundation now supports local threads, triage fields, reply-suggestion records, approval audits, import audits, and idempotent fake inbox ingestion. Real comment fetching and reply sending remain disabled.
 - Local AI reply suggestions now use Brand Brain context, versioned prompt provenance, deterministic mock generation, local safety review, persisted history, and audit rows. Suggestions remain review-only and are never sent externally.
 - Local reply approval workflow now supports editing, local approval, rejection, manual-reply tracking, escalation, spam marking, archive actions, critical-flag blocking, and audit history. Approval never sends a platform reply.
-- Engagement Inbox browser screen now mirrors the local reply workflow with clearly labeled mock data. SQLite wiring remains a later API-bridge step.
+- Engagement Inbox browser screen persists the local reply workflow through the localhost SQLite bridge and keeps a direct-file `localStorage` fallback for static inspection.
 - Local AI memory service now promotes explainable analytics insights and local draft/reply review decisions into idempotent evidence-backed memory without storing private engagement text.
 - Local weekly report service now upserts one deterministic report per brand and week, preserving mock/manual provenance and labeling mock-only reports as `ai_mock`.
 
@@ -342,13 +349,10 @@ Batch 7 local learning and inbox docs:
 Not built yet:
 
 - Desktop app.
-- API/backend app.
 - Production media upload UI wired to local storage.
-- Real Media Library to SQLite web/API bridge.
 - AI media analysis and auto-tagging.
-- Browser-to-SQLite API bridge for Scheduling, Calendar, Publish Queue, and Manual Export.
 - Real social integrations and real OAuth token exchange.
-- Browser-to-SQLite API bridge for Analytics, Engagement, AI Memory, and Weekly Reports.
+- Trusted desktop file-picker bridge for production media import.
 - Safety Center.
 - Backup and diagnostics.
 - Package-manager based lint/typecheck/build commands.

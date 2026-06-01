@@ -61,8 +61,9 @@ The command prints the export path and file names only. It does not print secret
 ## Publish Queue UI
 
 The static web app has an **Export package** button in Publish Queue detail.
-
-Current limitation: there is no API bridge from the browser to SQLite/filesystem yet. Until that exists, the browser button downloads a local text mirror of the package details and explains that the Python service is the source-of-truth exporter.
+When launched through the localhost bridge, the button calls the Python
+exporter and creates the package under `data/exports`. Direct-file mode keeps
+a browser-only text download fallback for static UI inspection.
 
 Use **Mark manually exported** only after the user has manually posted or finished exporting. Exporting a package does not change queue status by itself.
 

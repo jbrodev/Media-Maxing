@@ -60,7 +60,9 @@ It checks:
 - Real publishing flags are disabled by default.
 - Secret values are never returned in validation output.
 
-The static browser UI mirrors this behavior with a temporary demo adapter until the API bridge is wired.
+The localhost browser UI consumes masked validation output from
+`GET /api/integration-setup`. Opening the HTML file directly uses a temporary
+demo mirror for static inspection only.
 
 ## Secret Masking
 
@@ -128,6 +130,7 @@ Important files:
 
 - Root template: `.env.example`
 - API template: `apps/api/.env.example`
+- Browser-safe template: `apps/web/.env.example`
 - Do not commit: `.env`, `apps/api/.env`, local databases, logs, exports, backups, or media files.
 
 ## What The Env Vars Mean
@@ -149,13 +152,16 @@ Important files:
 
 Use the Social Integration Setup screen in the web app:
 
-1. Open `apps/web/index.html`.
-2. Go to `#setup`.
+1. Run `python -m apps.api.local_server --database data/app.sqlite --port 8000`.
+2. Open `http://127.0.0.1:8000/#setup`.
 3. Select a platform.
 4. Review missing env vars, redirect URI, setup checklist, and mock connection availability.
 5. Choose **I will add API keys later** to stay safely in mock mode.
 
-Because the current web app is static, the browser screen uses a temporary demo adapter. The server-side validation service in `scripts/services/integration_setup.py` uses `scripts/services/integration_flags.py` as the source of truth for real local environment checks.
+The localhost bridge loads the repo-root `.env` file when present and returns
+only masked validation status. The server-side validation service in
+`scripts/services/integration_setup.py` uses
+`scripts/services/integration_flags.py` as the source of truth.
 
 See also:
 

@@ -130,7 +130,9 @@ The LinkedIn scaffold lives in `scripts/connectors/linkedin.py`. See `docs/linke
 
 The X scaffold lives in `scripts/connectors/x.py`. See `docs/x-integration.md` for X env vars, OAuth readiness, mock profile health, access/pricing notes, and disabled publishing policy.
 
-Connected Accounts and Social Integration Setup now exist in the static web app. They use mock/demo local state until an API bridge is built.
+Connected Accounts and Social Integration Setup now exist in the static web app.
+Launch through the localhost bridge for SQLite-backed mock account state and
+server-safe masked setup status. Direct-file mode remains a demo fallback.
 
 ## Future Work
 

@@ -119,7 +119,6 @@ python -m scripts.db.seed_demo --database data/app.sqlite
 ## Not Built Yet
 
 - CSV import parser.
-- Browser-to-SQLite API bridge for the Analytics screen.
 - AI-provider insight generation.
 - Real platform analytics sync.
 

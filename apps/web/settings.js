@@ -2512,7 +2512,7 @@
 
   function setupDemoEnvironment() {
     const settings = settingsAdapter.load();
-    // TODO: Replace this browser mirror with API-backed env validation once the local API bridge is active.
+    // Direct-file fallback only. The localhost bridge returns server-safe masked status.
     return {
       APP_ENV: settings.appEnvironment || "development",
       LOCAL_DATA_DIR: settings.localDataDirectory || "./data",
@@ -2578,7 +2578,7 @@
     const platformRealOAuthRequested = String(environment[realOAuthFlag] || "false").toLowerCase() === "true";
     const globalRealOAuthRequested = String(environment.ENABLE_REAL_OAUTH || "false").toLowerCase() === "true";
     const realNetworkEnabled = String(environment.ENABLE_REAL_NETWORK_CALLS || "false").toLowerCase() === "true";
-    const mockConnectAvailable = ["facebook", "instagram"].includes(config.id);
+    const mockConnectAvailable = mockConnectPlatformIds.includes(config.id);
     const status = platformRealPublishingRequested || globalRealPublishingRequested
       ? "publishing_disabled_by_policy"
       : integrationsMode === "disabled"
@@ -2621,8 +2621,46 @@
     };
   }
 
-  function validateIntegrationSetupConfig(environment = setupDemoEnvironment()) {
-    const platformStatuses = connectedPlatformConfigs.map((config) => setupPlatformStatus(config, environment));
+  function normalizeServerIntegrationSetup(serverStatus) {
+    const platformStatuses = connectedPlatformConfigs.map((config) => {
+      const safeStatus = serverStatus.platforms?.[config.id] || {};
+      return {
+        ...config,
+        ...safeStatus,
+        id: config.id,
+        label: safeStatus.label || config.label,
+        setupStatus: safeStatus.connectorFeatureStatus || config.setupStatus,
+        accountType: safeStatus.requiredAccountType || config.accountType,
+        requiredScopes: safeStatus.requiredScopes || config.requiredScopes,
+        missingRequired: safeStatus.missingRequiredEnvVars || [],
+        envVars: Object.values(safeStatus.envVars || {}),
+        checklist: safeStatus.checklist || config.setupInstructions,
+        docsLinks: safeStatus.docsLinks || config.docsLinks,
+        redirectUri: safeStatus.redirectUri || `http://localhost:8000/api/connect/${config.id}/callback`,
+        realPublishingAvailable: false,
+      };
+    });
+    return {
+      ...serverStatus,
+      platforms: platformStatuses,
+      summary: {
+        ready: platformStatuses.filter((item) => item.status === "real_oauth_ready").length,
+        missing: platformStatuses.filter((item) => item.status === "missing_config").length,
+        mockReady: platformStatuses.filter((item) => item.status === "mock_ready").length,
+        disabled: platformStatuses.filter((item) => item.status === "disabled").length,
+        publishingBlocked: platformStatuses.filter((item) => item.status === "publishing_disabled_by_policy").length,
+        errors: serverStatus.errorCodes?.length || 0,
+      },
+    };
+  }
+
+  function validateIntegrationSetupConfig(environment = null) {
+    const serverStatus = environment ? null : activeApiBridge()?.snapshot?.integrationSetup;
+    if (serverStatus) {
+      return normalizeServerIntegrationSetup(serverStatus);
+    }
+    const resolvedEnvironment = environment || setupDemoEnvironment();
+    const platformStatuses = connectedPlatformConfigs.map((config) => setupPlatformStatus(config, resolvedEnvironment));
     const summary = {
       ready: platformStatuses.filter((item) => item.status === "real_oauth_ready").length,
       missing: platformStatuses.filter((item) => item.status === "missing_config").length,
@@ -2632,12 +2670,12 @@
       errors: 0,
     };
     return {
-      appEnvironment: environment.APP_ENV || "development",
-      localDataDirectory: environment.LOCAL_DATA_DIR || "./data",
-      integrationsMode: environment.INTEGRATIONS_MODE || "mock",
-      tokenStorageMode: environment.TOKEN_STORAGE_MODE || "placeholder_not_stored",
-      realOAuthEnabled: environment.ENABLE_REAL_OAUTH === "true",
-      realPublishingEnabled: environment.ENABLE_REAL_PUBLISHING === "true",
+      appEnvironment: resolvedEnvironment.APP_ENV || "development",
+      localDataDirectory: resolvedEnvironment.LOCAL_DATA_DIR || "./data",
+      integrationsMode: resolvedEnvironment.INTEGRATIONS_MODE || "mock",
+      tokenStorageMode: resolvedEnvironment.TOKEN_STORAGE_MODE || "placeholder_not_stored",
+      realOAuthEnabled: resolvedEnvironment.ENABLE_REAL_OAUTH === "true",
+      realPublishingEnabled: resolvedEnvironment.ENABLE_REAL_PUBLISHING === "true",
       realPublishingAvailable: false,
       platforms: platformStatuses,
       summary,
@@ -2732,14 +2770,14 @@
     renderSocialSetup();
   }
 
-  function runSetupMockConnectionTest() {
+  async function runSetupMockConnectionTest() {
     const status = validateIntegrationSetupConfig();
     const selected = selectedSetupPlatform(status);
     if (!selected.mockConnectAvailable) {
       setSocialSetupMessage("error", `${selected.label} mock connection is a placeholder for a later batch.`);
       return;
     }
-    mockConnectPlatform(selected.id);
+    await mockConnectPlatform(selected.id);
     setSocialSetupMessage("success", `${selected.label} mock connection test completed locally. No real API was called.`);
     renderSocialSetup();
   }
@@ -3944,6 +3982,7 @@
       renderCalendar();
       renderPublishQueue();
       renderConnectedAccounts();
+      renderSocialSetup();
       if (routeFromHash() === "settings") {
         applySettingsToForm(settingsAdapter.load());
       }

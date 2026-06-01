@@ -5,6 +5,7 @@ import tempfile
 import threading
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 from urllib.request import Request, urlopen
 
 from apps.api.local_server import (
@@ -36,8 +37,30 @@ class LocalApiServerTest(unittest.TestCase):
         self.assertTrue(bootstrap["localOnly"])
         self.assertNotIn("encrypted_access_token", serialized)
         self.assertNotIn("encrypted_refresh_token", serialized)
-        self.assertNotIn("client_secret", serialized)
         self.assertNotIn("authorization_code", serialized)
+        self.assertIn("integrationSetup", bootstrap)
+
+    def test_integration_setup_route_masks_server_side_secret_values(self):
+        app = self._application()
+
+        with patch.dict(
+            "os.environ",
+            {
+                "META_CLIENT_ID": "local-client-id",
+                "META_CLIENT_SECRET": "local-secret-must-not-leak",
+                "META_REDIRECT_URI": "http://127.0.0.1:8000/api/connect/facebook/callback",
+            },
+            clear=False,
+        ):
+            setup = app.dispatch("GET", "/api/integration-setup").body
+
+        serialized = json.dumps(setup)
+        facebook_vars = setup["platforms"]["facebook"]["envVars"]
+        self.assertNotIn("local-secret-must-not-leak", serialized)
+        self.assertEqual(
+            facebook_vars["META_CLIENT_SECRET"]["displayValue"],
+            "Configured, hidden",
+        )
 
     def test_settings_brand_analytics_memory_and_weekly_report_persist(self):
         app = self._application()

@@ -155,8 +155,7 @@ Canceling a queue item:
 
 ## Current Limitations
 
-- The web screen is still a temporary browser adapter.
-- SQLite queue updates are available through Python services, but there is no API bridge yet.
-- Publish attempts shown in the browser are local demo records.
+- Direct-file mode uses a temporary browser adapter; launch through the localhost bridge for SQLite persistence.
+- Publish attempts shown through the localhost bridge are local SQLite records.
 - Real platform publishing remains disabled by policy.
 - Connected social account checks inform readiness, but only future real publishing eligibility is blocked by missing/expired accounts.
