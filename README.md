@@ -285,7 +285,8 @@ Current status:
 - Local analytics service now supports manual snapshots, deterministic mock metrics, latest-snapshot summaries, breakdowns, rankings, import audits, and rule-based insights.
 - Analytics Dashboard screen now supports local demo summaries, filters, breakdowns, rankings, insight review actions, manual browser snapshots, and clearly labeled mock metric generation. SQLite wiring remains a later API-bridge step.
 - Engagement Inbox database foundation now supports local threads, triage fields, reply-suggestion records, approval audits, import audits, and idempotent fake inbox ingestion. Real comment fetching and reply sending remain disabled.
-- Engagement Inbox browser screen now supports clearly labeled mock records, filters, detail review, and persisted local-only status tracking. SQLite wiring and AI reply suggestions remain planned.
+- Local AI reply suggestions now use Brand Brain context, versioned prompt provenance, deterministic mock generation, local safety review, persisted history, and audit rows. Suggestions remain review-only and are never sent externally.
+- Engagement Inbox browser screen now supports clearly labeled mock records, filters, detail review, and persisted local-only status tracking. SQLite and reply-suggestion wiring remain a later API-bridge step.
 
 Batch 4 docs:
 
@@ -320,6 +321,7 @@ Batch 7 local learning and inbox docs:
 
 - `docs/analytics.md`
 - `docs/engagement-inbox.md`
+- `docs/reply-suggestions.md`
 
 Not built yet:
 

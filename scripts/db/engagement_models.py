@@ -98,6 +98,32 @@ REPLY_APPROVAL_ACTOR_TYPES = (
     "test",
 )
 
+REPLY_RECOMMENDED_ACTIONS = (
+    "reply",
+    "ask_for_more_info",
+    "invite_to_call",
+    "invite_to_message",
+    "escalate",
+    "ignore",
+    "mark_spam",
+)
+
+REPLY_SAFETY_SEVERITIES = (
+    "info",
+    "warning",
+    "critical",
+)
+
+CRITICAL_REPLY_SAFETY_FLAGS = (
+    "invented_price",
+    "invented_availability",
+    "unsupported_guarantee",
+    "aggressive_language",
+    "privacy_risk",
+    "complaint_mishandled",
+    "approval_bypass_attempt",
+)
+
 ENGAGEMENT_IMPORT_TYPES = (
     "mock_ingestion",
     "manual_entry",

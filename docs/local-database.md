@@ -21,6 +21,7 @@ This keeps the database local-first and runnable without installing dependencies
 - `scripts/services/analytics.py`: Stores manual and mock analytics, computes local summaries, and creates rule-based insights.
 - `scripts/db/engagement_models.py`: Defines engagement, thread, reply suggestion, approval, and import constants.
 - `scripts/services/engagement.py`: Creates idempotent fake local inbox records without fetching or replying.
+- `scripts/services/reply_suggestions.py`: Generates review-required local reply drafts with deterministic safety checks and no external sending.
 - `scripts/db/brand_profiles.py`: Provides the Brand Brain data model and CRUD service.
 - `scripts/db/settings.py`: Loads, validates, and updates local app settings.
 - `scripts/db/media_storage.py`: Imports image and video files into local media storage and records metadata in SQLite.
@@ -31,6 +32,7 @@ This keeps the database local-first and runnable without installing dependencies
 - `tests/test_media_storage.py`: Verifies media directory creation, local image/video import, metadata persistence, and rejection of unsafe files.
 - `tests/test_analytics_service.py`: Verifies manual metrics, mock metrics, latest-snapshot aggregation, summaries, insights, and import audits.
 - `tests/test_engagement_service.py`: Verifies safe mock inbox ingestion and duplicate skipping.
+- `tests/test_reply_suggestion_service.py`: Verifies local reply drafting, safety review, audit history, rollback, and safe CLI output.
 
 ## Initialize The Database
 

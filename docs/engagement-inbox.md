@@ -6,7 +6,7 @@ The Engagement Inbox foundation stores local conversation records for future own
 
 - `engagement_items`: individual comments, mentions, reviews, lead messages, and notes.
 - `engagement_threads`: local conversation groupings.
-- `reply_suggestions`: editable local reply drafts for a later AI-assisted workflow.
+- `reply_suggestions`: editable local AI-assisted reply drafts for owner review.
 - `reply_approvals`: local decision history. Approval is not sending.
 - `engagement_imports`: mock/manual/import/future-sync audit records.
 
@@ -43,7 +43,7 @@ The screen supports:
 - Platform, status, sentiment, intent, priority, source, date-range, and text filters.
 - Local status updates for needs reply, ignored, archived, spam, escalated, and replied manually.
 - A detail panel with local context and notes.
-- A visible placeholder for the future AI reply suggestion workflow.
+- A visible placeholder for wiring the local AI reply suggestion service into the browser detail panel.
 
 Status changes persist in the browser after refresh. They do not update SQLite until a future local API bridge is added.
 
@@ -64,6 +64,6 @@ Reply approval is local approval only. It never sends content to a social platfo
 - Manual engagement entry screen.
 - CSV import parser.
 - Real platform comment/message sync.
-- AI reply suggestion service.
+- Browser wiring for the local AI reply suggestion service.
 - Reply approval service.
 - Real reply sending.

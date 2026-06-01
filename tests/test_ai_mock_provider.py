@@ -255,6 +255,19 @@ class MockProviderStructuredGenerationTest(unittest.TestCase):
         self.assertEqual(safety.data["fields"]["blocking_flags"], [])
         self.assertEqual(safety.data["fields"]["reviewer"], "local_rules")
 
+    def test_reply_suggestion_schema_returns_safe_intent_specific_fields(self):
+        response = MockProvider().generate_structured(
+            self._request(
+                schema_name="reply_suggestion",
+                metadata={"intent": "price_request", "tone": "friendly"},
+            )
+        )
+        fields = response.data["fields"]
+        self.assertEqual(fields["recommendedAction"], "invite_to_message")
+        self.assertNotRegex(fields["suggestedReply"], r"\$\d+")
+        self.assertTrue(fields["needsHumanReview"])
+        self.assertEqual(fields["tone"], "friendly")
+
     def test_unknown_schema_returns_generic_demo_fields(self):
         response = MockProvider().generate_structured(
             self._request(schema_name="something_brand_new")

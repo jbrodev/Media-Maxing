@@ -21,6 +21,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal, Optional
 
+from scripts.db.engagement_models import REPLY_RECOMMENDED_ACTIONS, REPLY_SAFETY_SEVERITIES
+
 # ---------------------------------------------------------------------------
 # Enums and shared constants.
 # ---------------------------------------------------------------------------
@@ -336,6 +338,122 @@ class GeneratedPostSafetyReview:
         self.notes = _require_optional_string("GeneratedPostSafetyReview.notes", self.notes)
         self.suggested_fixes = _require_string_list(
             "GeneratedPostSafetyReview.suggested_fixes", self.suggested_fixes
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class ReplySafetyFlag:
+    """One owner-visible local safety flag for a suggested reply."""
+
+    code: str
+    severity: str
+    message: str
+
+    def __post_init__(self) -> None:
+        self.code = _require_string("ReplySafetyFlag.code", self.code)
+        self.severity = _require_enum(
+            "ReplySafetyFlag.severity", self.severity, REPLY_SAFETY_SEVERITIES
+        )
+        self.message = _require_string("ReplySafetyFlag.message", self.message)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class ReplySafetyReview:
+    """Deterministic local review result for a suggested reply."""
+
+    flags: list[ReplySafetyFlag] = field(default_factory=list)
+    blocking_flags: list[str] = field(default_factory=list)
+    needs_human_review: bool = True
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.flags, list) or any(
+            not isinstance(flag, ReplySafetyFlag) for flag in self.flags
+        ):
+            raise SchemaValidationError(
+                "ReplySafetyReview.flags must be a list of ReplySafetyFlag instances."
+            )
+        self.blocking_flags = _require_string_list(
+            "ReplySafetyReview.blocking_flags", self.blocking_flags
+        )
+        known_flag_codes = {flag.code for flag in self.flags}
+        invalid_blocking = set(self.blocking_flags) - known_flag_codes
+        if invalid_blocking:
+            raise SchemaValidationError(
+                "ReplySafetyReview.blocking_flags must be a subset of flags. "
+                f"Unknown blocking flags: {sorted(invalid_blocking)}."
+            )
+        if not isinstance(self.needs_human_review, bool):
+            raise SchemaValidationError(
+                "ReplySafetyReview.needs_human_review must be a boolean."
+            )
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class ReplySuggestionOutput:
+    """Validated structured provider output for a local-only reply draft."""
+
+    suggested_reply: str
+    tone: str
+    confidence: str
+    safety_flags: list[ReplySafetyFlag] = field(default_factory=list)
+    blocking_flags: list[str] = field(default_factory=list)
+    recommended_action: str = "reply"
+    needs_human_review: bool = True
+    reason_summary: str = ""
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.suggested_reply, str):
+            raise SchemaValidationError("ReplySuggestionOutput.suggested_reply must be a string.")
+        self.suggested_reply = self.suggested_reply.strip()
+        self.tone = _require_string("ReplySuggestionOutput.tone", self.tone)
+        self.confidence = _require_enum(
+            "ReplySuggestionOutput.confidence", self.confidence, ("low", "medium", "high")
+        )
+        self.recommended_action = _require_enum(
+            "ReplySuggestionOutput.recommended_action",
+            self.recommended_action,
+            REPLY_RECOMMENDED_ACTIONS,
+        )
+        if not self.suggested_reply and self.recommended_action not in {
+            "ignore",
+            "mark_spam",
+            "escalate",
+        }:
+            raise SchemaValidationError(
+                "ReplySuggestionOutput.suggested_reply may be empty only for ignore, "
+                "mark_spam, or escalate."
+            )
+        if not isinstance(self.safety_flags, list) or any(
+            not isinstance(flag, ReplySafetyFlag) for flag in self.safety_flags
+        ):
+            raise SchemaValidationError(
+                "ReplySuggestionOutput.safety_flags must be a list of ReplySafetyFlag instances."
+            )
+        self.blocking_flags = _require_string_list(
+            "ReplySuggestionOutput.blocking_flags", self.blocking_flags
+        )
+        flag_codes = {flag.code for flag in self.safety_flags}
+        invalid_blocking = set(self.blocking_flags) - flag_codes
+        if invalid_blocking:
+            raise SchemaValidationError(
+                "ReplySuggestionOutput.blocking_flags must be a subset of safety_flags. "
+                f"Unknown blocking flags: {sorted(invalid_blocking)}."
+            )
+        if not isinstance(self.needs_human_review, bool):
+            raise SchemaValidationError(
+                "ReplySuggestionOutput.needs_human_review must be a boolean."
+            )
+        self.reason_summary = _require_string(
+            "ReplySuggestionOutput.reason_summary", self.reason_summary
         )
 
     def to_dict(self) -> dict[str, Any]:

@@ -5,6 +5,7 @@ from contextlib import closing
 from pathlib import Path
 
 from scripts.db.engagement_models import (
+    CRITICAL_REPLY_SAFETY_FLAGS,
     ENGAGEMENT_DIRECTIONS,
     ENGAGEMENT_IMPORT_STATUSES,
     ENGAGEMENT_ITEM_TYPES,
@@ -13,6 +14,8 @@ from scripts.db.engagement_models import (
     ENGAGEMENT_STATUSES,
     ENGAGEMENT_THREAD_STATUSES,
     REPLY_APPROVAL_ACTIONS,
+    REPLY_RECOMMENDED_ACTIONS,
+    REPLY_SAFETY_SEVERITIES,
     REPLY_SUGGESTION_STATUSES,
 )
 from scripts.db.init_db import MIGRATIONS_DIR, initialize_database
@@ -60,6 +63,9 @@ class Batch7EngagementModelsTest(unittest.TestCase):
         self.assertIn("needs_attention", ENGAGEMENT_THREAD_STATUSES)
         self.assertIn("approved", REPLY_SUGGESTION_STATUSES)
         self.assertIn("mark_replied_manually", REPLY_APPROVAL_ACTIONS)
+        self.assertIn("mark_spam", REPLY_RECOMMENDED_ACTIONS)
+        self.assertIn("critical", REPLY_SAFETY_SEVERITIES)
+        self.assertIn("unsupported_guarantee", CRITICAL_REPLY_SAFETY_FLAGS)
         self.assertIn("completed", ENGAGEMENT_IMPORT_STATUSES)
 
     def test_initialize_database_creates_engagement_tables_and_columns(self):
@@ -116,6 +122,10 @@ class Batch7EngagementModelsTest(unittest.TestCase):
                         "provider",
                         "prompt_template_id",
                         "prompt_version",
+                        "recommended_action",
+                        "needs_human_review",
+                        "blocking_flags_json",
+                        "safety_review_json",
                         "status",
                         "created_at",
                         "updated_at",

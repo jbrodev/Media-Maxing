@@ -148,6 +148,19 @@ class PlatformPostGeneratorContentTest(unittest.TestCase):
         self.assertIn("draft only", self.body.lower())
 
 
+class CommentReplySuggestionContentTest(unittest.TestCase):
+    def test_reply_prompt_contains_context_sections(self):
+        body = get_prompt("comment_reply_suggestion_v1").template
+        for section in (
+            "BRAND CONTEXT",
+            "ENGAGEMENT CONTEXT",
+            "RELATED POST CONTEXT",
+            "TONE",
+        ):
+            with self.subTest(section=section):
+                self.assertIn(section, body)
+
+
 class RenderingTest(unittest.TestCase):
     def test_render_succeeds_with_all_inputs(self):
         rendered = get_prompt("platform_post_generator_v1").render(

@@ -394,7 +394,7 @@ class MockProvider(AIProvider):
         request: AIStructuredGenerationRequest,
     ) -> AIStructuredGenerationResponse:
         request.validate()
-        data = _mock_structured_payload(request.schema_name, request.prompt)
+        data = _mock_structured_payload(request.schema_name, request.prompt, request.metadata)
         return AIStructuredGenerationResponse(
             data=data,
             schema_name=request.schema_name,
@@ -435,8 +435,13 @@ def _structured_fingerprint(request: AIStructuredGenerationRequest) -> str:
     return hashlib.sha256(encoded).hexdigest()[:16]
 
 
-def _mock_structured_payload(schema_name: str, prompt: str) -> dict[str, Any]:
+def _mock_structured_payload(
+    schema_name: str,
+    prompt: str,
+    metadata: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     excerpt = (prompt.strip().splitlines() or [""])[0][:120]
+    metadata = metadata or {}
     base: dict[str, Any] = {
         "schema_name": schema_name,
         "summary": f"Mock structured response for schema {schema_name!r}.",
@@ -462,6 +467,8 @@ def _mock_structured_payload(schema_name: str, prompt: str) -> dict[str, Any]:
             "reviewer": "local_rules",
             "notes": "Mock safety review. No real evaluation performed.",
         }
+    elif schema_name == "reply_suggestion":
+        base["fields"] = _mock_reply_suggestion_fields(metadata)
     else:
         base["fields"] = {
             "headline": "Mock headline",
@@ -469,3 +476,65 @@ def _mock_structured_payload(schema_name: str, prompt: str) -> dict[str, Any]:
             "tags": ["mock", "demo"],
         }
     return base
+
+
+def _mock_reply_suggestion_fields(metadata: dict[str, Any]) -> dict[str, Any]:
+    intent = str(metadata.get("intent") or "general").strip().lower()
+    tone = str(metadata.get("tone") or "helpful").strip() or "helpful"
+    if intent == "spam":
+        return {
+            "suggestedReply": "",
+            "tone": tone,
+            "confidence": "high",
+            "safetyFlags": [],
+            "blockingFlags": [],
+            "recommendedAction": "mark_spam",
+            "needsHumanReview": True,
+            "reasonSummary": "Spam should not receive an outward reply.",
+        }
+    if intent == "praise":
+        reply = "Thank you for the kind words. We appreciate you taking the time to share them."
+        action = "reply"
+        reason = "Friendly thank-you draft for owner review."
+    elif intent == "price_request":
+        reply = (
+            "Thanks for asking. Pricing depends on the project details. "
+            "Please send us a message and we can help with an estimate."
+        )
+        action = "invite_to_message"
+        reason = "Invites an estimate request without inventing a price."
+    elif intent == "booking_request":
+        reply = (
+            "Thanks for reaching out. Please send us the project details and the best way "
+            "to contact you so the team can follow up about next steps."
+        )
+        action = "ask_for_more_info"
+        reason = "Requests next-step details without inventing availability."
+    elif intent == "complaint":
+        reply = (
+            "Thank you for letting us know. We are sorry this was frustrating. "
+            "Please send us a message so a person can review the details and follow up."
+        )
+        action = "escalate"
+        reason = "Uses an empathetic acknowledgment and routes the complaint to a person."
+    elif intent == "urgent":
+        reply = (
+            "Thanks for reaching out. Please send the key details and the best contact "
+            "method so a person can review this promptly."
+        )
+        action = "escalate"
+        reason = "Provides a concise next step while keeping a person in the loop."
+    else:
+        reply = "Thanks for reaching out. Please send us a message and we will be glad to help."
+        action = "reply"
+        reason = "Helpful general response for owner review."
+    return {
+        "suggestedReply": reply,
+        "tone": tone,
+        "confidence": "high",
+        "safetyFlags": [],
+        "blockingFlags": [],
+        "recommendedAction": action,
+        "needsHumanReview": True,
+        "reasonSummary": reason,
+    }

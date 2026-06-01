@@ -290,6 +290,17 @@ export type ReplyApprovalAction =
   | "escalate"
   | "mark_spam";
 
+export type ReplyRecommendedAction =
+  | "reply"
+  | "ask_for_more_info"
+  | "invite_to_call"
+  | "invite_to_message"
+  | "escalate"
+  | "ignore"
+  | "mark_spam";
+
+export type ReplySafetySeverity = "info" | "warning" | "critical";
+
 export type AnalyticsSource =
   | "manual"
   | "mock"
@@ -575,6 +586,10 @@ export interface ReplySuggestion {
   tone?: string;
   confidence: AIMemoryConfidence;
   safetyFlags: string[];
+  blockingFlags: string[];
+  safetyReview: ReplySafetyFlag[];
+  recommendedAction: ReplyRecommendedAction;
+  needsHumanReview: boolean;
   reasoningSummary?: string;
   provider: string;
   promptTemplateId: string;
@@ -582,6 +597,12 @@ export interface ReplySuggestion {
   status: ReplySuggestionStatus;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReplySafetyFlag {
+  code: string;
+  severity: ReplySafetySeverity;
+  message: string;
 }
 
 export interface ReplyApproval {

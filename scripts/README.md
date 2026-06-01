@@ -12,6 +12,7 @@ Current scripts:
 - `services/preflight.py`: Centralized platform requirement matrix and local preflight validation service for scheduled posts and queue items.
 - `services/publish_queue.py`: Local-only Publish Queue actions for manual-export completion and mock publishing. It never calls platform APIs.
 - `services/manual_export.py`: Creates local manual posting packages for eligible Publish Queue items. It writes files only and never publishes.
+- `services/reply_suggestions.py`: Creates local-only, review-required reply suggestions and audit records. It never sends replies.
 - `jobs/local_runner.py`: Runs local scheduled-post readiness jobs and preflight checks. It updates SQLite only and never publishes.
 
 Job runner examples:
@@ -25,4 +26,10 @@ Manual export example:
 
 ```powershell
 python -m scripts.services.manual_export --database data/app.sqlite --queue-item-id QUEUE_ITEM_ID
+```
+
+Reply suggestion example:
+
+```powershell
+python -m scripts.services.reply_suggestions --database data/app.sqlite --engagement-item-id ENGAGEMENT_ITEM_ID
 ```

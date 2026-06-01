@@ -12,16 +12,28 @@ GOAL
 Suggest one reply for the given engagement item, plus a recommended action and a confidence label. The owner approves before anything is sent.
 
 CONTEXT
+BRAND CONTEXT
 Business name: {{ business_name }}
 Brand voice: {{ brand_voice }}
 Supported claims (only claims you may make): {{ supported_claims }}
 Blocked phrases: {{ blocked_phrases }}
+
+ENGAGEMENT CONTEXT
 Platform: {{ platform }}
 Engagement type: {{ engagement_type }}
 Engagement body: {{ engagement_body }}
 Engagement author label: {{ engagement_author }}
+Sentiment: {{ engagement_sentiment }}
+Intent: {{ engagement_intent }}
+Priority: {{ engagement_priority }}
 Recent thread context: {{ engagement_history }}
 Owner notes: {{ owner_notes }}
+
+RELATED POST CONTEXT
+{{ related_post_context }}
+
+TONE
+{{ selected_tone }}
 
 INPUTS
 Recommended action vocabulary: reply, ask_for_more_info, invite_to_call, invite_to_message, escalate, ignore, mark_spam.
@@ -45,19 +57,22 @@ SAFETY RULES
 OUTPUT FORMAT
 Return a single JSON object with this shape:
 {
-  "reply_text": "<one suggested reply>",
-  "recommended_action": "<one of the action vocabulary values>",
+  "suggestedReply": "<one suggested reply>",
+  "tone": "<selected tone>",
   "confidence": "<one of low|medium|high>",
-  "safety_flags": ["<flag-name>"],
-  "blocking_flags": ["<subset of safety_flags>"],
-  "notes": "<plain-language reasoning, 1-3 sentences>"
+  "safetyFlags": ["<flag-name>"],
+  "blockingFlags": ["<subset of safetyFlags>"],
+  "recommendedAction": "<one of the action vocabulary values>",
+  "needsHumanReview": true,
+  "reasonSummary": "<plain-language reasoning, 1-3 sentences>"
 }
 
 ACCEPTANCE CRITERIA
-- "recommended_action" is exactly one value from the action vocabulary.
+- "recommendedAction" is exactly one value from the action vocabulary.
 - "confidence" is exactly one of low, medium, high.
-- "blocking_flags" is a subset of "safety_flags".
-- "reply_text" is empty only when "recommended_action" is "ignore", "mark_spam", or "escalate".
+- "blockingFlags" is a subset of "safetyFlags".
+- "suggestedReply" is empty only when "recommendedAction" is "ignore", "mark_spam", or "escalate".
+- "needsHumanReview" is always true.
 - The output is valid JSON.
 """
 
@@ -114,6 +129,21 @@ TEMPLATE = PromptTemplate(
             required=False,
         ),
         PromptInputSpec(
+            name="engagement_sentiment",
+            description="Local sentiment label.",
+            required=False,
+        ),
+        PromptInputSpec(
+            name="engagement_intent",
+            description="Local intent label.",
+            required=False,
+        ),
+        PromptInputSpec(
+            name="engagement_priority",
+            description="Local priority label.",
+            required=False,
+        ),
+        PromptInputSpec(
             name="engagement_history",
             description="Recent thread context if available.",
             required=False,
@@ -123,10 +153,20 @@ TEMPLATE = PromptTemplate(
             description="Free-text owner instructions for this reply.",
             required=False,
         ),
+        PromptInputSpec(
+            name="related_post_context",
+            description="Safe related generated-post context if available.",
+            required=False,
+        ),
+        PromptInputSpec(
+            name="selected_tone",
+            description="Owner-selected or default reply tone.",
+            required=False,
+        ),
     ),
     output_contract=(
-        "JSON object: {reply_text, recommended_action, confidence, safety_flags, "
-        "blocking_flags, notes}."
+        "JSON object: {suggestedReply, tone, confidence, safetyFlags, blockingFlags, "
+        "recommendedAction, needsHumanReview, reasonSummary}."
     ),
     template=_TEMPLATE_BODY,
     safety_rules=(
@@ -137,6 +177,6 @@ TEMPLATE = PromptTemplate(
         "Do not include identifying information beyond what is already in the engagement body.",
         "Recommend 'escalate' when in doubt.",
     ),
-    notes="Pair with the engagement inbox added in a later batch.",
+    notes="Produces local-only reply drafts for owner review. Never sends replies.",
     created_at="2026-05-26",
 )

@@ -592,7 +592,11 @@ Stores one editable local AI or mock reply draft for owner review.
 
 - `engagement_item_id` and `brand_profile_id`: suggestion context.
 - `suggested_reply`, `tone`, `confidence`, and `reasoning_summary`: local-review output.
-- `safety_flags_json`: approval blockers and warnings.
+- `safety_flags_json`: compact owner-visible safety flag codes.
+- `blocking_flags_json`: critical safety flag codes that must remain visible to the later approval service.
+- `safety_review_json`: detailed local safety review entries with severity and owner-facing messages.
+- `recommended_action`: `reply`, `ask_for_more_info`, `invite_to_call`, `invite_to_message`, `escalate`, `ignore`, or `mark_spam`.
+- `needs_human_review`: always true for generated suggestions in the MVP.
 - `provider`, `prompt_template_id`, and `prompt_version`: generation provenance.
 - `status`: `generated`, `edited`, `approved`, `rejected`, or `archived`.
 
