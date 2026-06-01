@@ -1,0 +1,105 @@
+# Environment and secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.turbo/
+coverage/
+**/dist/
+**/build/
+**/out/
+**/.next/
+**/.turbo/
+**/coverage/
+
+# Cache folders
+.cache/
+.parcel-cache/
+.vite/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+**/.cache/
+**/.parcel-cache/
+**/.vite/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/__pycache__/
+
+# Local SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite-shm
+*.sqlite-wal
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+data/db/
+
+# Local user data
+data/media/*
+!data/media/README.md
+!data/media/originals/
+!data/media/processed/
+!data/media/thumbnails/
+data/media/originals/*
+data/media/processed/*
+data/media/thumbnails/*
+!data/media/originals/README.md
+!data/media/processed/README.md
+!data/media/thumbnails/README.md
+data/exports/*
+!data/exports/README.md
+data/logs/*
+!data/logs/README.md
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python virtual environments and bytecode
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+*.pyo
+*.pyd
+
+# Desktop build artifacts
+src-tauri/target/
+apps/desktop/src-tauri/target/
+apps/desktop/target/
+apps/desktop/dist/
+apps/desktop/build/
+apps/desktop/out/
+apps/desktop/.tauri/
+apps/desktop/release/
+apps/desktop/.vite/
+
+# OS junk files
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini

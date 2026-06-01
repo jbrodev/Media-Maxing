@@ -1,0 +1,2138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Local Social AI Manager</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">LS</div>
+          <div>
+            <p class="brand-name">Local Social</p>
+            <p class="brand-subtitle">AI Manager</p>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <a class="nav-link active" href="#home" aria-current="page">Home</a>
+          <a class="nav-link" href="#media">Media Library</a>
+          <a class="nav-link" href="#generate">Generate</a>
+          <a class="nav-link" href="#drafts">Drafts</a>
+          <a class="nav-link" href="#calendar">Calendar</a>
+          <a class="nav-link" href="#queue">Publish Queue</a>
+          <a class="nav-link" href="#connected">Connected Accounts</a>
+          <a class="nav-link" href="#setup">Social Integration Setup</a>
+          <a class="nav-link" href="#engagement">Engagement</a>
+          <a class="nav-link" href="#analytics">Analytics</a>
+          <a class="nav-link" href="#brand">Brand Brain</a>
+          <a class="nav-link" href="#settings">Settings</a>
+        </nav>
+
+        <div class="safety-panel">
+          <p class="panel-label">Safety mode</p>
+          <p class="panel-title">Approval required</p>
+          <p class="panel-copy">Real publishing and real replies are disabled.</p>
+        </div>
+      </aside>
+
+      <main class="main-content" id="app-main">
+        <section class="route-view active" id="home-view" data-route="home">
+        <header class="topbar">
+          <div>
+            <h1>Home</h1>
+            <p>Local-first social planning workspace with mock data only.</p>
+          </div>
+          <button class="primary-button" type="button">Create draft</button>
+        </header>
+
+        <section class="status-strip" aria-label="Current safety status">
+          <div>
+            <span class="status-dot safe" aria-hidden="true"></span>
+            <strong>Mock/demo mode</strong>
+            <span>No APIs connected</span>
+          </div>
+          <div>
+            <span class="status-dot warning" aria-hidden="true"></span>
+            <strong>Human approval</strong>
+            <span>Required before publishing</span>
+          </div>
+          <div>
+            <span class="status-dot blocked" aria-hidden="true"></span>
+            <strong>Real publishing</strong>
+            <span>Disabled</span>
+          </div>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Home dashboard">
+          <article class="dashboard-card">
+            <div class="card-heading">
+              <p class="card-label">Drafts waiting approval</p>
+              <span class="card-status needs-review">Needs review</span>
+            </div>
+            <p class="metric">7</p>
+            <p class="card-copy">Mock drafts ready for owner review before scheduling.</p>
+          </article>
+
+          <article class="dashboard-card">
+            <div class="card-heading">
+              <p class="card-label">Scheduled posts</p>
+              <span class="card-status local-only">Local only</span>
+            </div>
+            <p class="metric">12</p>
+            <p class="card-copy">Approved content placed on the local calendar.</p>
+          </article>
+
+          <article class="dashboard-card">
+            <div class="card-heading">
+              <p class="card-label">Connected accounts</p>
+              <span class="card-status mock-mode">Mock</span>
+            </div>
+            <p class="metric">0</p>
+            <p class="card-copy">No real platform connections. Manual export is the safe path.</p>
+          </article>
+
+          <article class="dashboard-card">
+            <div class="card-heading">
+              <p class="card-label">Recent media</p>
+              <span class="card-status local-only">Local</span>
+            </div>
+            <p class="metric">24</p>
+            <p class="card-copy">Sample job photos and videos waiting for organization.</p>
+          </article>
+
+          <article class="dashboard-card wide-card">
+            <div class="card-heading">
+              <p class="card-label">Weekly performance</p>
+              <span class="card-status mock-mode">Demo data</span>
+            </div>
+            <div class="performance-row">
+              <div>
+                <p class="small-label">Reach</p>
+                <p class="medium-metric">4.8k</p>
+              </div>
+              <div>
+                <p class="small-label">Engagement</p>
+                <p class="medium-metric">6.2%</p>
+              </div>
+              <div>
+                <p class="small-label">Leads</p>
+                <p class="medium-metric">18</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="dashboard-card recommendation-card">
+            <div class="card-heading">
+              <p class="card-label">AI recommendations</p>
+              <span class="card-status needs-review">Review</span>
+            </div>
+            <p class="card-copy">
+              Try two trust-building posts this week using recent project photos.
+              Recommendation is based on mock performance only.
+            </p>
+          </article>
+        </section>
+
+        <section class="workspace-section" aria-labelledby="queue-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="queue-heading">Approval queue preview</h2>
+              <p>Mock content waiting for owner review.</p>
+            </div>
+            <button class="secondary-button" type="button">View drafts</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Draft</th>
+                  <th>Platform</th>
+                  <th>Status</th>
+                  <th>Safety</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Spring tune-up reminder</td>
+                  <td>Facebook</td>
+                  <td>Needs review</td>
+                  <td>No blockers</td>
+                </tr>
+                <tr>
+                  <td>Before and after project recap</td>
+                  <td>Instagram</td>
+                  <td>Revision requested</td>
+                  <td>Needs claim check</td>
+                </tr>
+                <tr>
+                  <td>FAQ: booking availability</td>
+                  <td>LinkedIn</td>
+                  <td>Needs review</td>
+                  <td>No blockers</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        </section>
+
+        <section class="route-view" id="media-view" data-route="media" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Media Library</h1>
+              <p>Local-first media records for photos and videos. The browser demo uses local mock metadata only.</p>
+            </div>
+            <div class="topbar-actions">
+              <input id="media-import-input" type="file" accept="image/*,video/*" hidden />
+              <button class="primary-button" id="media-import-button" type="button">Import media</button>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Media Library safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Local-only import</strong>
+              <span>No cloud upload</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>AI analysis</strong>
+              <span>Not connected yet</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Publishing</strong>
+              <span>Disabled</span>
+            </div>
+          </section>
+
+          <section class="workspace-section media-library-panel" aria-labelledby="media-library-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="media-library-heading">Grid view</h2>
+                <p><span id="media-count">0</span> local media records available for future draft generation.</p>
+              </div>
+              <button class="secondary-button" id="media-reset-button" type="button">Reset demo media</button>
+            </div>
+
+            <div class="media-controls" aria-label="Media filters">
+              <label class="field">
+                <span>Search by filename or title</span>
+                <input id="media-search" type="search" placeholder="Search driveway, gutter, video..." autocomplete="off" />
+              </label>
+
+              <label class="field">
+                <span>Media type</span>
+                <select id="media-type-filter">
+                  <option value="all">All media</option>
+                  <option value="image">Images</option>
+                  <option value="video">Videos</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Status</span>
+                <select id="media-status-filter">
+                  <option value="all">All statuses</option>
+                  <option value="new">New</option>
+                  <option value="reviewed">Reviewed</option>
+                  <option value="ready_for_generation">Ready for generation</option>
+                  <option value="used_in_draft">Used in draft</option>
+                  <option value="published">Published</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="media-state loading-state" id="media-loading-state" role="status">
+              Loading local media records...
+            </div>
+
+            <div class="media-state error-state" id="media-error-state" role="alert" hidden>
+              Media Library could not load. Check the local demo adapter and try again.
+            </div>
+
+            <div class="media-state empty-state" id="media-empty-state" hidden>
+              No media matches these filters yet. Import a local image or video, or reset the demo media.
+            </div>
+
+            <div class="media-grid" id="media-grid" aria-live="polite"></div>
+          </section>
+
+          <aside class="workspace-section media-detail-panel" id="media-detail-panel" aria-labelledby="media-detail-heading" hidden>
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="media-detail-heading">Media details</h2>
+                <p>Edit local metadata that future AI draft generation can use. No AI analysis runs here.</p>
+              </div>
+              <button class="secondary-button" id="media-detail-close" type="button">Close</button>
+            </div>
+
+            <form class="settings-layout" id="media-metadata-form" novalidate>
+              <input id="media-selected-id" type="hidden" />
+
+              <div class="form-grid">
+                <label class="field">
+                  <span>Title</span>
+                  <input id="media-title" name="title" type="text" placeholder="Driveway after cleaning" />
+                </label>
+
+                <label class="field">
+                  <span>Tags, comma-separated</span>
+                  <input id="media-tags" name="tags" type="text" placeholder="after, driveway, ready" />
+                </label>
+
+                <label class="field full-width-field">
+                  <span>Description</span>
+                  <textarea id="media-description" name="description" rows="3" placeholder="Describe what the photo or video shows."></textarea>
+                </label>
+
+                <label class="field">
+                  <span>Service type</span>
+                  <input id="media-serviceType" name="serviceType" type="text" placeholder="pressure washing" />
+                </label>
+
+                <label class="field">
+                  <span>Location name</span>
+                  <input id="media-locationName" name="locationName" type="text" placeholder="Demo customer driveway" />
+                </label>
+
+                <label class="field">
+                  <span>City</span>
+                  <input id="media-city" name="city" type="text" placeholder="Demo City" />
+                </label>
+
+                <label class="field">
+                  <span>State</span>
+                  <input id="media-state" name="state" type="text" maxlength="32" placeholder="NY" />
+                </label>
+
+                <label class="field">
+                  <span>Project date</span>
+                  <input id="media-projectDate" name="projectDate" type="date" />
+                </label>
+
+                <label class="field">
+                  <span>Content angle</span>
+                  <select id="media-contentAngle" name="contentAngle">
+                    <option value="before_after">Before/after</option>
+                    <option value="educational">Educational</option>
+                    <option value="behind_the_scenes">Behind the scenes</option>
+                    <option value="testimonial">Testimonial</option>
+                    <option value="promotion">Promotion</option>
+                    <option value="faq">FAQ</option>
+                    <option value="trust_builder">Trust builder</option>
+                    <option value="transformation">Transformation</option>
+                    <option value="seasonal">Seasonal</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>Quality rating</span>
+                  <select id="media-qualityRating" name="qualityRating">
+                    <option value="">Not rated</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>Usage status</span>
+                  <select id="media-usageStatus" name="usageStatus">
+                    <option value="new">New</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="ready_for_generation">Ready for generation</option>
+                    <option value="used_in_draft">Used in draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </label>
+
+                <label class="field full-width-field">
+                  <span>Notes</span>
+                  <textarea id="media-notes" name="notes" rows="3" placeholder="Add local reminders, pairing notes, or generation guidance."></textarea>
+                </label>
+              </div>
+
+              <div class="settings-actions">
+                <p class="form-message error-message" id="media-metadata-error" role="alert" hidden></p>
+                <p class="form-message success-message" id="media-metadata-success" role="status" hidden></p>
+                <button class="primary-button" type="submit">Save media metadata</button>
+              </div>
+            </form>
+          </aside>
+        </section>
+
+        <section class="route-view" id="brand-view" data-route="brand" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Brand Brain</h1>
+              <p>Business memory for voice, services, customers, rules, and examples. Nothing publishes from here.</p>
+            </div>
+            <button class="primary-button" type="submit" form="brand-brain-form">Save Brand Brain</button>
+          </header>
+
+          <section class="brand-memory-hero workspace-section" aria-label="Brand Brain summary">
+            <div>
+              <p class="panel-label">Business memory</p>
+              <h2 id="brand-memory-name">Brightside Exterior Care Demo</h2>
+              <p id="brand-memory-summary">Temporary browser Brand Brain adapter until the web app is wired to SQLite.</p>
+            </div>
+            <div class="memory-stats" aria-label="Brand memory completeness">
+              <div>
+                <span id="brand-service-count">0</span>
+                <small>services</small>
+              </div>
+              <div>
+                <span id="brand-rule-count">0</span>
+                <small>safety rules</small>
+              </div>
+              <div>
+                <span id="brand-example-count">0</span>
+                <small>example posts</small>
+              </div>
+            </div>
+          </section>
+
+          <form class="settings-layout" id="brand-brain-form" novalidate>
+            <section class="workspace-section settings-section" aria-labelledby="brand-identity-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-identity-heading">Business identity</h2>
+                  <p>The basics the app should remember before drafting content.</p>
+                </div>
+                <span class="card-status mock-mode">Local demo</span>
+              </div>
+
+              <div class="form-grid">
+                <label class="field">
+                  <span>Business name</span>
+                  <input id="brand-businessName" name="businessName" type="text" autocomplete="organization" placeholder="Brightside Exterior Care Demo" required />
+                </label>
+
+                <label class="field">
+                  <span>Tagline</span>
+                  <input id="brand-tagline" name="tagline" type="text" autocomplete="off" placeholder="Cleaner curb appeal, handled with care." />
+                </label>
+
+                <label class="field">
+                  <span>Industry</span>
+                  <input id="brand-industry" name="industry" type="text" autocomplete="off" placeholder="Exterior cleaning" />
+                </label>
+
+                <label class="field">
+                  <span>Brand voice</span>
+                  <input id="brand-brandVoice" name="brandVoice" type="text" autocomplete="off" placeholder="Helpful, practical, neighborly, safety-conscious." />
+                </label>
+              </div>
+
+              <label class="field">
+                <span>Description</span>
+                <textarea id="brand-description" name="description" rows="4" placeholder="Describe what the business does, who it serves, and what makes it trustworthy."></textarea>
+              </label>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="brand-market-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-market-heading">Services and customers</h2>
+                  <p>Use one item per line. Add item inserts a new line so lists stay easy to edit.</p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <label class="field list-field">
+                  <span>Services</span>
+                  <textarea id="brand-services" name="services" data-list-field rows="5" placeholder="pressure washing&#10;soft washing&#10;gutter cleaning"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-services">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Service areas</span>
+                  <textarea id="brand-serviceAreas" name="serviceAreas" data-list-field rows="5" placeholder="Demo City&#10;Nearby service areas"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-serviceAreas">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Target customers</span>
+                  <textarea id="brand-targetCustomers" name="targetCustomers" data-list-field rows="5" placeholder="local homeowners&#10;small property managers"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-targetCustomers">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Common CTAs</span>
+                  <textarea id="brand-commonCTAs" name="commonCTAs" data-list-field rows="5" placeholder="Request a demo estimate&#10;Ask about exterior cleaning options"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-commonCTAs">Add item</button>
+                </label>
+              </div>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="brand-language-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-language-heading">Language memory</h2>
+                  <p>Guide tone, words, and hashtag defaults without creating fake claims.</p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <label class="field list-field">
+                  <span>Tone rules</span>
+                  <textarea id="brand-toneRules" name="toneRules" data-list-field rows="5" placeholder="Use practical local-service language.&#10;Avoid hype and pressure."></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-toneRules">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Banned words</span>
+                  <textarea id="brand-bannedWords" name="bannedWords" data-list-field rows="5" placeholder="guaranteed results&#10;best in the city"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-bannedWords">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Preferred words</span>
+                  <textarea id="brand-preferredWords" name="preferredWords" data-list-field rows="5" placeholder="careful&#10;local&#10;seasonal"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-preferredWords">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Hashtags</span>
+                  <textarea id="brand-hashtags" name="hashtags" data-list-field rows="5" placeholder="#DemoBusiness&#10;#ExteriorCleaning"></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-hashtags">Add item</button>
+                </label>
+              </div>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="brand-contact-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-contact-heading">Business contact details</h2>
+                  <p>Optional public business contact info only. Do not enter API keys or secrets.</p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <label class="field">
+                  <span>Website</span>
+                  <input id="brand-website" name="website" type="url" placeholder="https://example.local/brightside-demo" />
+                </label>
+
+                <label class="field">
+                  <span>Phone</span>
+                  <input id="brand-phone" name="phone" type="tel" placeholder="555-0100" />
+                </label>
+
+                <label class="field">
+                  <span>Email</span>
+                  <input id="brand-email" name="email" type="email" placeholder="hello@brightside-demo.example" />
+                </label>
+              </div>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="brand-safety-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-safety-heading">Approval and safety memory</h2>
+                  <p>Rules that should shape drafts and stop unsupported claims.</p>
+                </div>
+                <span class="card-status needs-review">Approval required</span>
+              </div>
+
+              <div class="form-grid">
+                <label class="field list-field">
+                  <span>Approval rules</span>
+                  <textarea id="brand-approvalRules" name="approvalRules" data-list-field rows="5" placeholder="Owner approves every generated draft before scheduling."></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-approvalRules">Add item</button>
+                </label>
+
+                <label class="field list-field">
+                  <span>Safety rules</span>
+                  <textarea id="brand-safetyRules" name="safetyRules" data-list-field rows="5" placeholder="Never invent testimonials.&#10;Never invent prices, guarantees, or availability."></textarea>
+                  <button class="inline-add-button" type="button" data-add-list-item="brand-safetyRules">Add item</button>
+                </label>
+              </div>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="brand-examples-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="brand-examples-heading">Example posts</h2>
+                  <p>Paste posts that sound like this business. These are local examples, not published claims.</p>
+                </div>
+              </div>
+
+              <label class="field list-field full-width-field">
+                <span>Example posts</span>
+                <textarea id="brand-examplePosts" name="examplePosts" data-list-field rows="7" placeholder="Demo post: Spring is a good time to check siding, gutters, and walkways before heavy rain."></textarea>
+                <button class="inline-add-button" type="button" data-add-list-item="brand-examplePosts">Add item</button>
+              </label>
+            </section>
+
+            <div class="settings-actions">
+              <p class="form-message error-message" id="brand-error" role="alert" hidden></p>
+              <p class="form-message success-message" id="brand-success" role="status" hidden></p>
+              <button class="secondary-button" id="reset-brand-brain" type="button">Reset demo Brand Brain</button>
+              <button class="primary-button" type="submit">Save Brand Brain</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="route-view" id="settings-view" data-route="settings" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Settings</h1>
+              <p>Local app preferences and safety controls. Real publishing remains disabled.</p>
+            </div>
+            <button class="primary-button" type="submit" form="settings-form">Save settings</button>
+          </header>
+
+          <section class="status-strip" aria-label="Settings safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Approval required</strong>
+              <span>Enabled by default</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Real publishing</strong>
+              <span>Disabled</span>
+            </div>
+            <div id="pause-status-card">
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Emergency pause</strong>
+              <span id="pause-status-text">Off</span>
+            </div>
+          </section>
+
+          <form class="settings-layout" id="settings-form" novalidate>
+            <section class="workspace-section settings-section" aria-labelledby="settings-general-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="settings-general-heading">App preferences</h2>
+                  <p>Temporary browser settings adapter until the web app is wired to SQLite.</p>
+                </div>
+                <span class="card-status mock-mode">Local demo</span>
+              </div>
+
+              <div class="form-grid">
+                <label class="field">
+                  <span>App name</span>
+                  <input id="appName" name="appName" type="text" autocomplete="off" required />
+                </label>
+
+                <label class="field">
+                  <span>Local data directory</span>
+                  <input id="localDataDirectory" name="localDataDirectory" type="text" autocomplete="off" required />
+                </label>
+
+                <label class="field">
+                  <span>Default timezone</span>
+                  <select id="defaultTimezone" name="defaultTimezone" required>
+                    <option value="America/New_York">America/New_York</option>
+                    <option value="America/Chicago">America/Chicago</option>
+                    <option value="America/Denver">America/Denver</option>
+                    <option value="America/Los_Angeles">America/Los_Angeles</option>
+                    <option value="UTC">UTC</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>AI provider preference</span>
+                  <select id="aiProviderPreference" name="aiProviderPreference" required>
+                    <option value="mock">Mock</option>
+                    <option value="local">Local</option>
+                    <option value="openai">OpenAI, later</option>
+                    <option value="anthropic">Anthropic, later</option>
+                  </select>
+                </label>
+              </div>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="settings-targets-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="settings-targets-heading">Default platform targets</h2>
+                  <p>Used for draft generation defaults. No platform APIs are connected.</p>
+                </div>
+              </div>
+
+              <fieldset class="checkbox-group" id="defaultPlatformTargets">
+                <legend>Platforms</legend>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="facebook" /> Facebook</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="instagram" /> Instagram</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="threads" /> Threads</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="youtube" /> YouTube Shorts</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="tiktok" /> TikTok</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="linkedin" /> LinkedIn</label>
+                <label><input type="checkbox" name="defaultPlatformTargets" value="x" /> X</label>
+              </fieldset>
+            </section>
+
+            <section class="workspace-section settings-section" aria-labelledby="settings-safety-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="settings-safety-heading">Safety controls</h2>
+                  <p>Approval gates stay on for MVP workflows and autonomous publishing is locked.</p>
+                </div>
+                <span class="card-status needs-review">Human review</span>
+              </div>
+
+              <div class="form-grid">
+                <label class="field">
+                  <span>Automation level</span>
+                  <select id="automationLevel" name="automationLevel" required>
+                    <option value="manual_assist">Manual assist</option>
+                    <option value="approval_queue">Approval queue</option>
+                    <option value="semi_auto_scheduling">Semi-auto scheduling</option>
+                    <option value="safe_auto_posting" disabled>Safe auto-posting, locked</option>
+                    <option value="autonomous_content_engine" disabled>Autonomous content engine, locked</option>
+                  </select>
+                </label>
+
+                <div class="toggle-stack" role="group" aria-label="Approval requirements">
+                  <label class="toggle-row">
+                    <span>
+                      <strong>Require approval before publishing</strong>
+                      <small>Must stay enabled for MVP safety.</small>
+                    </span>
+                    <input id="requireApprovalBeforePublishing" name="requireApprovalBeforePublishing" type="checkbox" />
+                  </label>
+
+                  <label class="toggle-row">
+                    <span>
+                      <strong>Require approval before replying</strong>
+                      <small>AI reply suggestions remain local until approved.</small>
+                    </span>
+                    <input id="requireApprovalBeforeReplying" name="requireApprovalBeforeReplying" type="checkbox" />
+                  </label>
+                </div>
+              </div>
+
+              <label class="emergency-toggle" id="emergency-pause-panel">
+                <span>
+                  <strong>Emergency pause</strong>
+                  <small>Blocks scheduling, mock publishing, future real publishing, future real replies, and automation above the approval queue.</small>
+                </span>
+                <input id="emergencyPauseEnabled" name="emergencyPauseEnabled" type="checkbox" />
+              </label>
+            </section>
+
+            <div class="settings-actions">
+              <p class="form-message error-message" id="settings-error" role="alert" hidden></p>
+              <p class="form-message success-message" id="settings-success" role="status" hidden></p>
+              <button class="secondary-button" id="reset-settings" type="button">Reset demo defaults</button>
+              <button class="primary-button" type="submit">Save settings</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="route-view" id="connected-view" data-route="connected" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Connected Accounts</h1>
+              <p>Mock/demo social connections for future integration readiness. Real publishing is not enabled in this build.</p>
+            </div>
+            <button class="secondary-button" id="connected-refresh" type="button">Refresh local status</button>
+          </header>
+
+          <section class="status-strip" aria-label="Connected accounts safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Mock OAuth</strong>
+              <span>No API keys required</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Real publishing disabled</strong>
+              <span>Connections do not post content</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>No token display</strong>
+              <span>Only safe account details appear here</span>
+            </div>
+          </section>
+
+          <section class="workspace-section connected-workspace" aria-labelledby="connected-platforms-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="connected-platforms-heading">Platform connection cards</h2>
+                <p>Use mock connect to preview setup, permissions, and status. Publishing disabled in this build.</p>
+              </div>
+              <span class="card-status mock-mode">Mock/demo mode</span>
+            </div>
+
+            <p class="form-message success-message" id="connected-action-message" role="status" hidden></p>
+            <p class="form-message error-message" id="connected-action-error" role="alert" hidden></p>
+
+            <div class="media-state loading-state" id="connected-loading-state" role="status">
+              Loading local connection records...
+            </div>
+
+            <div class="media-state error-state" id="connected-error-state" role="alert" hidden>
+              Connected Accounts could not load. Check the local demo adapter and try again.
+            </div>
+
+            <div class="connected-platform-grid" id="connected-platform-grid" aria-live="polite">
+              <article class="connected-platform-card" data-platform-label="Facebook"><h3>Facebook</h3></article>
+              <article class="connected-platform-card" data-platform-label="Instagram"><h3>Instagram</h3></article>
+              <article class="connected-platform-card" data-platform-label="Threads"><h3>Threads</h3></article>
+              <article class="connected-platform-card" data-platform-label="YouTube"><h3>YouTube</h3></article>
+              <article class="connected-platform-card" data-platform-label="TikTok"><h3>TikTok</h3></article>
+              <article class="connected-platform-card" data-platform-label="LinkedIn"><h3>LinkedIn</h3></article>
+              <article class="connected-platform-card" data-platform-label="X"><h3>X</h3></article>
+            </div>
+          </section>
+
+          <section class="workspace-section connected-accounts-panel" aria-labelledby="connected-list-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="connected-list-heading">Connected account list</h2>
+                <p>Safe local account records only. Tokens, authorization values, and secrets are never shown.</p>
+              </div>
+            </div>
+
+            <div class="media-state empty-state" id="connected-empty-state" hidden>
+              No mock accounts connected yet. Choose Connect on Facebook or Instagram to create a local demo connection.
+            </div>
+
+            <div class="connected-account-list" id="connected-account-list" aria-live="polite"></div>
+          </section>
+
+          <aside class="workspace-section connected-setup-panel" id="connected-setup-panel" aria-labelledby="connected-setup-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="connected-setup-heading">Setup instructions</h2>
+                <p id="connected-setup-summary">Select a platform card to view setup notes and required permissions.</p>
+              </div>
+              <span class="card-status local-only">Future integration</span>
+            </div>
+            <div id="connected-setup-content" class="connected-setup-content">
+              <p class="result-meta">No platform selected.</p>
+            </div>
+          </aside>
+
+          <section class="workspace-section connector-audit-panel" aria-labelledby="connected-audit-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="connected-audit-heading">Connector audit log</h2>
+                <p>Local mock connection and disconnect events. No external revoke or platform call is attempted.</p>
+              </div>
+            </div>
+            <div class="connector-audit-list" id="connected-audit-list"></div>
+          </section>
+        </section>
+
+        <section class="route-view" id="social-setup-view" data-route="setup" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Social Integration Setup</h1>
+              <p>Plain-language setup helper for future platform connections. Mock mode comes first and publishing disabled remains the policy.</p>
+            </div>
+            <button class="secondary-button" id="social-setup-later" type="button">I will add API keys later</button>
+          </header>
+
+          <section class="status-strip" aria-label="Social setup safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Mock mode vs real mode</strong>
+              <span>Mock setup works without credentials</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Secrets hidden</strong>
+              <span>Client secrets are never shown</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Publishing disabled</strong>
+              <span>Manual export is still the safe path</span>
+            </div>
+          </section>
+
+          <section class="workspace-section social-setup-overview" aria-labelledby="social-setup-overview-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="social-setup-overview-heading">Current configuration status</h2>
+                <p>Browser demo mirrors the server-side validation rules. Real environment values are checked by the local Python service.</p>
+              </div>
+              <span class="card-status mock-mode">Mock helper</span>
+            </div>
+            <div class="social-setup-summary-grid" id="social-setup-summary" aria-live="polite"></div>
+          </section>
+
+          <section class="social-setup-layout">
+            <div class="workspace-section social-setup-platform-panel" aria-labelledby="social-setup-platforms-heading">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="social-setup-platforms-heading">Supported platforms</h2>
+                  <p>Select a platform to see env vars, redirect URI, mock test availability, and setup checklist.</p>
+                </div>
+              </div>
+              <div class="social-setup-platform-list" id="social-setup-platform-list" aria-live="polite"></div>
+            </div>
+
+            <aside class="workspace-section social-setup-detail-panel" id="social-setup-detail-panel" aria-labelledby="social-setup-detail-title">
+              <div class="section-header compact-header">
+                <div>
+                  <h2 id="social-setup-detail-title">Platform setup</h2>
+                  <p id="social-setup-detail-status">Mock only</p>
+                </div>
+                <span class="card-status needs-review">Real publishing disabled</span>
+              </div>
+
+              <dl class="connected-account-details">
+                <div><dt>OAuth redirect URI needed</dt><dd id="social-setup-redirect-uri">-</dd></div>
+                <div><dt>Required account type</dt><dd id="social-setup-account-type">-</dd></div>
+                <div><dt>Future permissions/scopes</dt><dd id="social-setup-scopes">-</dd></div>
+                <div><dt>Connector feature status</dt><dd id="social-setup-feature-status">-</dd></div>
+                <div><dt>Mock connect availability</dt><dd id="social-setup-mock-mode">-</dd></div>
+                <div><dt>Real OAuth availability</dt><dd id="social-setup-real-oauth">-</dd></div>
+                <div><dt>Real publishing availability</dt><dd id="social-setup-real-publishing">Real publishing disabled in this build</dd></div>
+              </dl>
+
+              <div class="social-setup-action-row">
+                <button class="primary-button" id="social-setup-mock-test" type="button">Run mock connection test</button>
+                <button class="secondary-button" id="social-setup-copy-redirect" type="button">Copy redirect URI</button>
+              </div>
+              <p class="form-message success-message" id="social-setup-action-message" role="status" hidden></p>
+              <p class="form-message error-message" id="social-setup-action-error" role="alert" hidden></p>
+
+              <section class="setup-subsection" aria-labelledby="social-setup-env-heading">
+                <h3 id="social-setup-env-heading">Required environment variables</h3>
+                <div class="setup-env-list" id="social-setup-env-list"></div>
+              </section>
+
+              <section class="setup-subsection" aria-labelledby="social-setup-checklist-heading">
+                <h3 id="social-setup-checklist-heading">Per-platform setup checklist</h3>
+                <ul class="setup-checklist" id="social-setup-checklist"></ul>
+              </section>
+
+              <section class="setup-subsection" aria-labelledby="social-setup-docs-heading">
+                <h3 id="social-setup-docs-heading">Developer docs placeholders</h3>
+                <ul class="setup-checklist" id="social-setup-docs-links"></ul>
+              </section>
+            </aside>
+          </section>
+        </section>
+
+        <section class="route-view" id="generate-view" data-route="generate" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Generate</h1>
+              <p>Create AI-generated draft posts from your brand profile and selected media. Drafts default to needs review and are never published from this screen.</p>
+            </div>
+            <div class="topbar-actions">
+              <button class="secondary-button" id="generate-reset" type="button">Reset form</button>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Generate safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Mock provider</strong>
+              <span>No real AI calls</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Approval required</strong>
+              <span>Drafts must be reviewed</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Publishing</strong>
+              <span>Disabled</span>
+            </div>
+          </section>
+
+          <section class="workspace-section" aria-labelledby="generate-brand-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="generate-brand-heading">Brand profile summary</h2>
+                <p>Pulled from Brand Brain. Edit it under the Brand Brain screen.</p>
+              </div>
+            </div>
+            <div class="generate-brand-summary" id="generate-brand-summary" aria-live="polite">
+              <p class="empty-state" id="generate-brand-empty" hidden>
+                No brand profile yet. Open Brand Brain and complete your business name, voice, and services before generating.
+              </p>
+              <dl class="brand-summary-grid" id="generate-brand-fields" hidden>
+                <div><dt>Business name</dt><dd id="generate-brand-name">—</dd></div>
+                <div><dt>Industry</dt><dd id="generate-brand-industry">—</dd></div>
+                <div><dt>Brand voice</dt><dd id="generate-brand-voice">—</dd></div>
+                <div><dt>Services</dt><dd id="generate-brand-services">—</dd></div>
+                <div><dt>Service areas</dt><dd id="generate-brand-areas">—</dd></div>
+                <div><dt>Common CTAs</dt><dd id="generate-brand-ctas">—</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <form class="workspace-section generate-form" id="generate-form" novalidate>
+            <div class="section-header compact-header">
+              <div>
+                <h2>Build the generation request</h2>
+                <p>Temporary browser generation adapter — uses a deterministic JS mirror of the mock provider. Real backend wiring is a later step. <!-- TODO: wire to scripts/services/content_generation.py via a thin API in apps/api. --></p>
+              </div>
+            </div>
+
+            <fieldset class="generate-fieldset" aria-labelledby="generate-media-heading">
+              <legend id="generate-media-heading">Media selection</legend>
+              <p class="field-hint">Select one or more local media records. Job context shown when available.</p>
+              <div class="media-state empty-state" id="generate-media-empty" hidden>
+                No media yet. Import images or video in the Media Library to use them here.
+              </div>
+              <div class="generate-media-grid" id="generate-media-grid" role="listbox" aria-multiselectable="true"></div>
+            </fieldset>
+
+            <fieldset class="generate-fieldset" aria-labelledby="generate-platforms-heading">
+              <legend id="generate-platforms-heading">Platform selection</legend>
+              <p class="field-hint">One draft is generated per selected platform.</p>
+              <div class="chip-row" id="generate-platforms" role="group" aria-label="Target platforms"></div>
+            </fieldset>
+
+            <div class="form-grid">
+              <label class="field">
+                <span>Content goal</span>
+                <select id="generate-goal" name="contentGoal" required>
+                  <option value="get_leads">Get leads</option>
+                  <option value="show_transformation" selected>Show transformation</option>
+                  <option value="educate_customer">Educate customer</option>
+                  <option value="promote_offer">Promote offer</option>
+                  <option value="build_trust">Build trust</option>
+                  <option value="announce_availability">Announce availability</option>
+                  <option value="repurpose_old_content">Repurpose old content</option>
+                  <option value="behind_the_scenes">Behind the scenes</option>
+                  <option value="seasonal_reminder">Seasonal reminder</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Content angle</span>
+                <select id="generate-angle" name="contentAngle" required>
+                  <option value="before_after" selected>Before/after</option>
+                  <option value="educational">Educational</option>
+                  <option value="behind_the_scenes">Behind the scenes</option>
+                  <option value="testimonial">Testimonial</option>
+                  <option value="promotion">Promotion</option>
+                  <option value="faq">FAQ</option>
+                  <option value="trust_builder">Trust builder</option>
+                  <option value="transformation">Transformation</option>
+                  <option value="seasonal">Seasonal</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Campaign name (optional)</span>
+                <input id="generate-campaign" name="campaignName" type="text" placeholder="Spring tune-up" autocomplete="off" />
+              </label>
+
+              <label class="field">
+                <span>Offer context (optional)</span>
+                <input id="generate-offer" name="offerContext" type="text" placeholder="Free walkthrough within 5 miles" autocomplete="off" />
+              </label>
+
+              <label class="field full-width-field">
+                <span>Owner instructions (optional)</span>
+                <textarea id="generate-instructions" name="userInstructions" rows="3" placeholder="Keep it honest. Mention seasonal timing. Skip pricing."></textarea>
+              </label>
+            </div>
+
+            <fieldset class="generate-fieldset" aria-labelledby="generate-options-heading">
+              <legend id="generate-options-heading">Generation options</legend>
+              <div class="form-grid">
+                <label class="field">
+                  <span>Number of variants</span>
+                  <input id="generate-variants" name="numberOfVariants" type="number" min="0" max="4" value="0" />
+                </label>
+                <label class="field">
+                  <span>Tone (optional)</span>
+                  <input id="generate-tone" name="tone" type="text" placeholder="warm, practical" autocomplete="off" />
+                </label>
+                <label class="field">
+                  <span>Creativity level</span>
+                  <select id="generate-creativity" name="creativityLevel">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </label>
+                <label class="field check-field">
+                  <input id="generate-include-hashtags" name="includeHashtags" type="checkbox" checked />
+                  <span>Include hashtags</span>
+                </label>
+                <label class="field check-field">
+                  <input id="generate-include-emojis" name="includeEmojis" type="checkbox" />
+                  <span>Include emojis</span>
+                </label>
+                <label class="field check-field">
+                  <input id="generate-include-cta" name="includeCTA" type="checkbox" checked />
+                  <span>Include call-to-action</span>
+                </label>
+                <label class="field check-field">
+                  <input id="generate-require-safety" name="requireSafetyReview" type="checkbox" checked />
+                  <span>Require safety review</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <p class="generate-error" id="generate-error" role="alert" hidden></p>
+
+            <div class="form-actions">
+              <button class="primary-button" id="generate-submit" type="submit">
+                <span class="button-label">Generate drafts</span>
+                <span class="button-spinner" aria-hidden="true" hidden></span>
+              </button>
+            </div>
+          </form>
+
+          <section class="workspace-section" aria-labelledby="generate-results-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="generate-results-heading">Generated results preview</h2>
+                <p>Drafts are NOT saved until you click "Save to Drafts".</p>
+              </div>
+              <div class="topbar-actions">
+                <button class="secondary-button" id="generate-clear-results" type="button" hidden>Clear preview</button>
+                <button class="primary-button" id="generate-save-drafts" type="button" disabled>Save to Drafts</button>
+              </div>
+            </div>
+
+            <div class="media-state loading-state" id="generate-loading" role="status" hidden>
+              Generating drafts with the local mock provider...
+            </div>
+            <p class="empty-state" id="generate-results-empty">
+              No drafts yet. Pick media, platforms, a goal, and an angle, then click "Generate drafts".
+            </p>
+            <p class="generate-save-status" id="generate-save-status" role="status" hidden></p>
+            <div class="generate-results" id="generate-results" aria-live="polite"></div>
+          </section>
+        </section>
+
+        <section class="route-view" id="calendar-view" data-route="calendar" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Calendar</h1>
+              <p>Local-only calendar for approved drafts. Real publishing disabled.</p>
+            </div>
+            <div class="topbar-actions">
+              <a class="secondary-button link-button" href="#drafts">Schedule approved drafts</a>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Calendar safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Local-only calendar</strong>
+              <span>Stored in this browser demo</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Approved drafts</strong>
+              <span>Only approved content is schedulable</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Real publishing disabled</strong>
+              <span>No social APIs are called</span>
+            </div>
+          </section>
+
+          <section class="workspace-section calendar-workspace" aria-labelledby="calendar-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="calendar-heading">Scheduled content</h2>
+                <p id="calendar-range-label">Loading date range...</p>
+              </div>
+              <span class="card-status mock-mode">Temporary browser Calendar adapter</span>
+            </div>
+
+            <div class="calendar-toolbar" aria-label="Calendar controls">
+              <div class="calendar-view-toggle" role="group" aria-label="Calendar view">
+                <button class="secondary-button active" id="calendar-view-week" type="button" data-calendar-view="week">Week</button>
+                <button class="secondary-button" id="calendar-view-month" type="button" data-calendar-view="month">Month</button>
+                <button class="secondary-button" id="calendar-view-list" type="button" data-calendar-view="list">List</button>
+              </div>
+
+              <div class="calendar-date-nav" role="group" aria-label="Calendar date navigation">
+                <button class="secondary-button" id="calendar-prev" type="button">Previous</button>
+                <button class="secondary-button" id="calendar-today" type="button">Today</button>
+                <button class="secondary-button" id="calendar-next" type="button">Next</button>
+              </div>
+
+              <label class="field">
+                <span>Platform</span>
+                <select id="calendar-platform-filter">
+                  <option value="all">All platforms</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="threads">Threads</option>
+                  <option value="youtube">YouTube Shorts</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="x">X</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Status</span>
+                <select id="calendar-status-filter">
+                  <option value="all">All statuses</option>
+                  <option value="scheduled">Scheduled</option>
+                  <option value="queued">Queued</option>
+                  <option value="missed">Missed</option>
+                  <option value="canceled">Canceled</option>
+                  <option value="completed">Completed</option>
+                  <option value="failed">Failed</option>
+                  <option value="needs_attention">Needs attention</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="media-state loading-state" id="calendar-loading-state" role="status">
+              Loading local scheduled posts...
+            </div>
+
+            <div class="media-state error-state" id="calendar-error-state" role="alert" hidden>
+              Calendar could not load. Check the local demo adapter and try again.
+            </div>
+
+            <div class="media-state empty-state" id="calendar-empty-state" hidden>
+              No scheduled posts match this view. Open Drafts to review and approve content before scheduling.
+            </div>
+
+            <div class="calendar-layout">
+              <div>
+                <div class="calendar-grid" id="calendar-grid" aria-live="polite"></div>
+                <div class="calendar-list" id="calendar-list" aria-live="polite" hidden></div>
+              </div>
+
+              <aside class="calendar-detail-panel" id="calendar-detail-panel" aria-labelledby="calendar-detail-heading">
+                <div class="calendar-detail-empty" id="calendar-detail-empty">
+                  Select a scheduled post to inspect the local schedule snapshot, queue status, and safety details.
+                </div>
+
+                <div class="calendar-detail-content" id="calendar-detail-content" hidden>
+                  <div class="section-header compact-header">
+                    <div>
+                      <h2 id="calendar-detail-heading">Scheduled post detail</h2>
+                      <p id="calendar-detail-summary">Local scheduling only.</p>
+                    </div>
+                    <span class="result-status" id="calendar-detail-status">scheduled</span>
+                  </div>
+
+                  <dl class="calendar-detail-grid">
+                    <div><dt>Platform</dt><dd id="calendar-detail-platform">-</dd></div>
+                    <div><dt>Scheduled date/time</dt><dd id="calendar-detail-datetime">-</dd></div>
+                    <div><dt>Timezone</dt><dd id="calendar-detail-timezone">-</dd></div>
+                    <div><dt>Publish queue status</dt><dd id="calendar-detail-queue-status">-</dd></div>
+                    <div><dt>Preflight status</dt><dd id="calendar-detail-preflight">-</dd></div>
+                    <div><dt>Original draft ID</dt><dd id="calendar-detail-draft-id">-</dd></div>
+                    <div><dt>Created</dt><dd id="calendar-detail-created">-</dd></div>
+                    <div><dt>Updated</dt><dd id="calendar-detail-updated">-</dd></div>
+                  </dl>
+
+                  <section class="calendar-copy-block" aria-label="Caption snapshot">
+                    <h3>Caption snapshot</h3>
+                    <p id="calendar-detail-caption">-</p>
+                    <p class="result-hashtags" id="calendar-detail-hashtags"></p>
+                    <p class="result-meta" id="calendar-detail-cta"></p>
+                  </section>
+
+                  <section class="calendar-copy-block" aria-label="Linked media">
+                    <h3>Linked media assets</h3>
+                    <div id="calendar-detail-media"></div>
+                  </section>
+
+                  <form class="calendar-reschedule-form" id="calendar-reschedule-form" novalidate>
+                    <div class="form-grid">
+                      <label class="field">
+                        <span>Reschedule date/time</span>
+                        <input id="calendar-reschedule-datetime" type="datetime-local" required />
+                      </label>
+                      <label class="field">
+                        <span>Timezone</span>
+                        <input id="calendar-reschedule-timezone" type="text" value="America/New_York" />
+                      </label>
+                      <label class="field full-width-field">
+                        <span>User notes</span>
+                        <textarea id="calendar-notes" rows="3" placeholder="Optional local notes for this scheduled post."></textarea>
+                      </label>
+                    </div>
+
+                    <p class="form-message success-message" id="calendar-action-message" role="status" hidden></p>
+                    <p class="form-message error-message" id="calendar-action-error" role="alert" hidden></p>
+
+                    <div class="calendar-actions">
+                      <button class="primary-button" id="calendar-reschedule-button" type="submit">Reschedule</button>
+                      <button class="secondary-button" id="calendar-cancel-button" type="button">Cancel scheduled post</button>
+                      <button class="secondary-button" id="calendar-copy-caption" type="button">Copy caption</button>
+                      <button class="secondary-button" id="calendar-mark-needs-attention" type="button">Mark needs attention</button>
+                      <a class="secondary-button link-button" id="calendar-open-draft" href="#drafts">Open draft</a>
+                      <a class="secondary-button link-button" id="calendar-view-queue-item" href="#queue">View queue item</a>
+                    </div>
+                  </form>
+                </div>
+              </aside>
+            </div>
+          </section>
+        </section>
+
+        <section class="route-view" id="queue-view" data-route="queue" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Publish Queue</h1>
+              <p>Local queue only. Review readiness, preflight blockers, manual export, and mock/demo actions. Real publishing disabled.</p>
+            </div>
+            <div class="topbar-actions">
+              <button class="primary-button" id="queue-run-preflight" type="button">Run preflight check now</button>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Publish Queue safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Manual export</strong>
+              <span>Safe path before APIs</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Mock publish is demo-only</strong>
+              <span>No external post is created</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Real publishing disabled</strong>
+              <span>No social APIs are called</span>
+            </div>
+          </section>
+
+          <section class="queue-summary-grid" aria-label="Queue summary">
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Waiting</p><span class="card-status local-only">Local</span></div>
+              <p class="metric" id="queue-summary-waiting">0</p>
+            </article>
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Ready</p><span class="card-status local-only">Checked</span></div>
+              <p class="metric" id="queue-summary-ready">0</p>
+            </article>
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Blocked</p><span class="card-status needs-review">Review</span></div>
+              <p class="metric" id="queue-summary-blocked">0</p>
+            </article>
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Mock published</p><span class="card-status mock-mode">Demo</span></div>
+              <p class="metric" id="queue-summary-mock-published">0</p>
+            </article>
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Failed</p><span class="card-status needs-review">Local</span></div>
+              <p class="metric" id="queue-summary-failed">0</p>
+            </article>
+            <article class="dashboard-card queue-summary-card">
+              <div class="card-heading"><p class="card-label">Needs attention</p><span class="card-status needs-review">Safety</span></div>
+              <p class="metric" id="queue-summary-needs-attention">0</p>
+            </article>
+          </section>
+
+          <section class="workspace-section queue-workspace" aria-labelledby="queue-screen-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="queue-screen-heading">Local queue readiness</h2>
+                <p>Temporary browser Publish Queue adapter. SQLite-backed queue actions come through the future API bridge.</p>
+              </div>
+              <span class="card-status mock-mode">Manual/mock only</span>
+            </div>
+
+            <div class="queue-toolbar" aria-label="Queue filters">
+              <label class="field">
+                <span>Platform</span>
+                <select id="queue-platform-filter">
+                  <option value="all">All platforms</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="threads">Threads</option>
+                  <option value="youtube">YouTube Shorts</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="x">X</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Queue status</span>
+                <select id="queue-status-filter">
+                  <option value="all">All statuses</option>
+                  <option value="waiting">Waiting</option>
+                  <option value="ready">Ready</option>
+                  <option value="blocked">Blocked</option>
+                  <option value="processing">Processing</option>
+                  <option value="mock_published">Mock published</option>
+                  <option value="manually_exported">Manually exported</option>
+                  <option value="failed">Failed</option>
+                  <option value="canceled">Canceled</option>
+                  <option value="skipped">Skipped</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Preflight status</span>
+                <select id="queue-preflight-filter">
+                  <option value="all">All preflight statuses</option>
+                  <option value="not_checked">Not checked</option>
+                  <option value="passed">Passed</option>
+                  <option value="warnings">Warnings</option>
+                  <option value="errors">Errors</option>
+                  <option value="blocked">Blocked</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Date range</span>
+                <select id="queue-date-filter">
+                  <option value="all">All dates</option>
+                  <option value="today">Today</option>
+                  <option value="next_7_days">Next 7 days</option>
+                  <option value="overdue">Overdue</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Brand profile</span>
+                <select id="queue-brand-filter">
+                  <option value="all">All Brand Brains</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Search caption, hook, or platform</span>
+                <input id="queue-search" type="search" placeholder="Search queue..." autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="media-state loading-state" id="queue-loading-state" role="status">
+              Loading local publish queue...
+            </div>
+
+            <div class="media-state error-state" id="queue-error-state" role="alert" hidden>
+              Publish Queue could not load. Check the local demo adapter and try again.
+            </div>
+
+            <div class="media-state empty-state" id="queue-empty-state" hidden>
+              No queue items match these filters. Schedule an approved draft to create a local queue item.
+            </div>
+
+            <div class="queue-layout">
+              <div class="queue-list" id="queue-list" aria-live="polite"></div>
+
+              <aside class="queue-detail-panel" id="queue-detail-panel" aria-labelledby="queue-detail-heading">
+                <div class="queue-detail-empty" id="queue-detail-empty">
+                  Select a queue item to inspect readiness, blockers, attempts, and local manual/mock actions.
+                </div>
+
+                <div class="queue-detail-content" id="queue-detail-content" hidden>
+                  <div class="section-header compact-header">
+                    <div>
+                      <h2 id="queue-detail-heading">Queue item detail</h2>
+                      <p id="queue-detail-summary">Manual export is the safe path. Future real publishing remains disabled.</p>
+                    </div>
+                    <span class="result-status" id="queue-detail-status">waiting</span>
+                  </div>
+
+                  <dl class="queue-detail-grid">
+                    <div><dt>Platform</dt><dd id="queue-detail-platform">-</dd></div>
+                    <div><dt>Due date/time</dt><dd id="queue-detail-due">-</dd></div>
+                    <div><dt>Timezone</dt><dd id="queue-detail-timezone">-</dd></div>
+                    <div><dt>Preflight status</dt><dd id="queue-detail-preflight">-</dd></div>
+                    <div><dt>Account connection status</dt><dd id="queue-detail-account-status">-</dd></div>
+                    <div><dt>Matched account</dt><dd id="queue-detail-account-name">-</dd></div>
+                    <div><dt>Missing scopes</dt><dd id="queue-detail-account-scopes">-</dd></div>
+                    <div><dt>Manual export</dt><dd id="queue-detail-manual-export">-</dd></div>
+                    <div><dt>Real publishing</dt><dd id="queue-detail-real-publishing">Real publishing disabled in this build</dd></div>
+                    <div><dt>Mock publish</dt><dd id="queue-detail-mock-publish">-</dd></div>
+                    <div><dt>Related scheduled post</dt><dd id="queue-detail-scheduled">-</dd></div>
+                    <div><dt>Related original draft</dt><dd id="queue-detail-draft">-</dd></div>
+                    <div><dt>Created</dt><dd id="queue-detail-created">-</dd></div>
+                    <div><dt>Updated</dt><dd id="queue-detail-updated">-</dd></div>
+                  </dl>
+
+                  <section class="calendar-copy-block" aria-label="Queue caption snapshot">
+                    <h3>Caption snapshot</h3>
+                    <p id="queue-detail-caption">-</p>
+                    <p class="result-hashtags" id="queue-detail-hashtags"></p>
+                    <p class="result-meta" id="queue-detail-cta"></p>
+                  </section>
+
+                  <section class="calendar-copy-block" aria-label="Queue linked media">
+                    <h3>Linked media assets</h3>
+                    <div id="queue-detail-media"></div>
+                  </section>
+
+                  <section class="calendar-copy-block" aria-label="Preflight errors">
+                    <h3>Preflight errors</h3>
+                    <div class="preflight-list" id="queue-detail-errors"></div>
+                  </section>
+
+                  <section class="calendar-copy-block" aria-label="Preflight warnings">
+                    <h3>Preflight warnings</h3>
+                    <div class="preflight-list" id="queue-detail-warnings"></div>
+                  </section>
+
+                  <section class="calendar-copy-block" aria-label="Publish attempts history">
+                    <h3>Publish attempts history</h3>
+                    <div class="attempt-history-list" id="queue-attempt-history"></div>
+                  </section>
+
+                  <section class="queue-action-panel" aria-label="Manual queue actions">
+                    <h3>Manual action area</h3>
+                    <p>These actions update local demo records only. They never call social APIs.</p>
+                    <p class="form-message success-message" id="queue-action-message" role="status" hidden></p>
+                    <p class="form-message error-message" id="queue-action-error" role="alert" hidden></p>
+                    <div class="calendar-actions">
+                      <button class="secondary-button" id="queue-manual-export" type="button">Mark manually exported</button>
+                      <button class="secondary-button" id="queue-mock-publish" type="button">Mock publish</button>
+                      <button class="secondary-button" id="queue-cancel" type="button">Cancel queue item</button>
+                      <a class="secondary-button link-button" id="queue-open-calendar" href="#calendar">Open scheduled post in Calendar</a>
+                      <a class="secondary-button link-button" id="queue-open-draft" href="#drafts">Open original draft</a>
+                      <button class="secondary-button" id="queue-copy-caption" type="button">Copy caption</button>
+                      <button class="secondary-button" id="queue-export-package" type="button">Export package</button>
+                    </div>
+                  </section>
+                </div>
+              </aside>
+            </div>
+          </section>
+        </section>
+
+        <section class="route-view" id="engagement-view" data-route="engagement" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Engagement Inbox</h1>
+              <p>Review mock or manually tracked conversations and record the next local action.</p>
+            </div>
+            <div class="topbar-actions">
+              <button class="secondary-button" id="engagement-generate-mock" type="button">Generate mock engagement</button>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Engagement safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Replies are not sent automatically.</strong>
+              <span>Review and act manually</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>AI suggestions require approval.</strong>
+              <span>Suggestion service comes next</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Manual reply tracking is local only.</strong>
+              <span>No platform APIs are called</span>
+            </div>
+          </section>
+
+          <p class="form-message success-message" id="engagement-mock-message" role="status" hidden></p>
+
+          <section class="engagement-summary-grid" aria-label="Engagement inbox summary">
+            <article class="engagement-summary-card"><span>New</span><strong id="engagement-summary-new">0</strong></article>
+            <article class="engagement-summary-card"><span>Needs reply</span><strong id="engagement-summary-needs-reply">0</strong></article>
+            <article class="engagement-summary-card"><span>Reply suggested</span><strong id="engagement-summary-reply-suggested">0</strong></article>
+            <article class="engagement-summary-card"><span>Approved replies</span><strong id="engagement-summary-approved">0</strong></article>
+            <article class="engagement-summary-card"><span>Urgent</span><strong id="engagement-summary-urgent">0</strong></article>
+            <article class="engagement-summary-card"><span>Complaints</span><strong id="engagement-summary-complaints">0</strong></article>
+            <article class="engagement-summary-card"><span>Leads</span><strong id="engagement-summary-leads">0</strong></article>
+            <article class="engagement-summary-card"><span>Spam</span><strong id="engagement-summary-spam">0</strong></article>
+          </section>
+
+          <section class="workspace-section engagement-workspace" aria-labelledby="engagement-inbox-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="engagement-inbox-heading">Local conversation review</h2>
+                <p>Temporary browser Engagement adapter. Mock and manual records stay on this device until the local API bridge is added.</p>
+              </div>
+              <span class="card-status mock-mode">Mock/manual only</span>
+            </div>
+
+            <div class="engagement-toolbar" aria-label="Engagement filters">
+              <label class="field">
+                <span>Platform</span>
+                <select id="engagement-platform-filter">
+                  <option value="all">All platforms</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="threads">Threads</option>
+                  <option value="youtube">YouTube Shorts</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="x">X</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Status</span>
+                <select id="engagement-status-filter">
+                  <option value="all">All statuses</option>
+                  <option value="new">New</option>
+                  <option value="needs_reply">Needs reply</option>
+                  <option value="reply_suggested">Reply suggested</option>
+                  <option value="reply_approved">Reply approved locally</option>
+                  <option value="replied_manually">Replied manually</option>
+                  <option value="ignored">Ignored</option>
+                  <option value="archived">Archived</option>
+                  <option value="spam">Spam</option>
+                  <option value="escalated">Escalated</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Sentiment</span>
+                <select id="engagement-sentiment-filter">
+                  <option value="all">All sentiment</option>
+                  <option value="positive">Positive</option>
+                  <option value="neutral">Neutral</option>
+                  <option value="negative">Negative</option>
+                  <option value="mixed">Mixed</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Intent</span>
+                <select id="engagement-intent-filter">
+                  <option value="all">All intents</option>
+                  <option value="praise">Praise</option>
+                  <option value="question">Question</option>
+                  <option value="price_request">Price request</option>
+                  <option value="booking_request">Booking request</option>
+                  <option value="complaint">Complaint</option>
+                  <option value="spam">Spam</option>
+                  <option value="partnership">Partnership</option>
+                  <option value="general">General</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Priority</span>
+                <select id="engagement-priority-filter">
+                  <option value="all">All priorities</option>
+                  <option value="low">Low</option>
+                  <option value="normal">Normal</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Source</span>
+                <select id="engagement-source-filter">
+                  <option value="all">All sources</option>
+                  <option value="mock">Mock/demo</option>
+                  <option value="manual">Manual</option>
+                  <option value="imported_csv">Imported CSV</option>
+                  <option value="platform_api">Future platform API</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Date range</span>
+                <select id="engagement-date-filter">
+                  <option value="all">All items</option>
+                  <option value="7">Last 7 days</option>
+                  <option value="30">Last 30 days</option>
+                  <option value="90">Last 90 days</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Search content or author</span>
+                <input id="engagement-search" type="search" placeholder="Search inbox..." autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="media-state loading-state" id="engagement-loading-state" role="status">Loading local engagement...</div>
+            <div class="media-state error-state" id="engagement-error-state" role="alert" hidden>
+              Engagement Inbox could not load. Check the local demo adapter and try again.
+            </div>
+            <div class="media-state empty-state" id="engagement-empty-state" hidden>
+              No engagement items match these filters. Generate mock engagement to populate a clearly labeled local demo inbox.
+            </div>
+
+            <div class="engagement-layout">
+              <div class="engagement-list" id="engagement-list" aria-live="polite"></div>
+
+              <aside class="engagement-detail-panel" id="engagement-detail-panel" aria-labelledby="engagement-detail-heading">
+                <div class="engagement-detail-empty" id="engagement-detail-empty">
+                  Select a conversation item to inspect context and record a local-only action.
+                </div>
+
+                <div class="engagement-detail-content" id="engagement-detail-content" hidden>
+                  <div class="section-header compact-header">
+                    <div>
+                      <h2 id="engagement-detail-heading">Engagement detail</h2>
+                      <p>Raw provider payloads are intentionally hidden. This workflow never sends replies.</p>
+                    </div>
+                    <span class="result-status" id="engagement-detail-status">new</span>
+                  </div>
+
+                  <section class="engagement-copy-block" aria-label="Full engagement content">
+                    <h3>Full content</h3>
+                    <p id="engagement-detail-full-content">-</p>
+                  </section>
+
+                  <dl class="engagement-detail-grid">
+                    <div><dt>Platform</dt><dd id="engagement-detail-platform">-</dd></div>
+                    <div><dt>Author</dt><dd id="engagement-detail-author">-</dd></div>
+                    <div><dt>Received</dt><dd id="engagement-detail-received">-</dd></div>
+                    <div><dt>Sentiment</dt><dd id="engagement-detail-sentiment">-</dd></div>
+                    <div><dt>Intent</dt><dd id="engagement-detail-intent">-</dd></div>
+                    <div><dt>Priority</dt><dd id="engagement-detail-priority">-</dd></div>
+                    <div><dt>Related post</dt><dd id="engagement-detail-related-post">-</dd></div>
+                    <div><dt>Thread context</dt><dd id="engagement-detail-thread">-</dd></div>
+                    <div class="engagement-detail-notes"><dt>Notes</dt><dd id="engagement-detail-notes">-</dd></div>
+                  </dl>
+
+                  <section class="engagement-suggestion-area" id="engagement-suggestion-area" aria-labelledby="engagement-suggestion-heading">
+                    <div>
+                      <h3 id="engagement-suggestion-heading">Reply suggestion</h3>
+                      <p id="engagement-suggestion-message">AI reply suggestions are not implemented yet. When added, suggestions will require local approval and will never send automatically.</p>
+                    </div>
+                    <button class="secondary-button" id="engagement-generate-suggestion" type="button" disabled>Generate AI suggestion</button>
+                  </section>
+
+                  <section class="engagement-action-panel" aria-label="Local engagement actions">
+                    <h3>Local approval and action area</h3>
+                    <p>Approved replies are approved locally only. Mark replied manually after handling the conversation outside this app.</p>
+                    <p class="form-message success-message" id="engagement-action-message" role="status" hidden></p>
+                    <p class="form-message error-message" id="engagement-action-error" role="alert" hidden></p>
+                    <div class="engagement-actions">
+                      <button class="secondary-button" id="engagement-mark-needs-reply" type="button">Mark needs reply</button>
+                      <button class="secondary-button" id="engagement-ignore" type="button">Ignore</button>
+                      <button class="secondary-button" id="engagement-archive" type="button">Archive</button>
+                      <button class="secondary-button" id="engagement-mark-spam" type="button">Mark spam</button>
+                      <button class="secondary-button" id="engagement-escalate" type="button">Escalate</button>
+                      <button class="secondary-button" id="engagement-mark-replied-manually" type="button">Mark replied manually</button>
+                    </div>
+                  </section>
+                </div>
+              </aside>
+            </div>
+          </section>
+        </section>
+
+        <section class="route-view" id="analytics-view" data-route="analytics" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Analytics</h1>
+              <p>Understand what content is working with local manual metrics and clearly labeled demo data.</p>
+            </div>
+            <div class="topbar-actions">
+              <button class="secondary-button" id="analytics-generate-mock" type="button">Generate mock analytics</button>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Analytics safety status">
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Local analytics only</strong>
+              <span>Metrics stay on this device</span>
+            </div>
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Mock analytics are demo data</strong>
+              <span>Always labeled mock</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>No real analytics APIs</strong>
+              <span>No platform sync in this build</span>
+            </div>
+          </section>
+
+          <section class="workspace-section analytics-workspace" aria-labelledby="analytics-overview-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="analytics-overview-heading">Performance overview</h2>
+                <p>Use filters to compare local snapshots. Manual and mock sources remain visibly distinct.</p>
+              </div>
+              <span class="card-status mock-mode">Temporary browser adapter</span>
+            </div>
+
+            <div class="analytics-toolbar" aria-label="Analytics filters">
+              <label class="field">
+                <span>Date range</span>
+                <select id="analytics-range-filter">
+                  <option value="7">Last 7 days</option>
+                  <option value="30" selected>Last 30 days</option>
+                  <option value="90">Last 90 days</option>
+                  <option value="all">All snapshots</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Platform</span>
+                <select id="analytics-platform-filter">
+                  <option value="all">All platforms</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="threads">Threads</option>
+                  <option value="youtube">YouTube Shorts</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="x">X</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Source</span>
+                <select id="analytics-source-filter">
+                  <option value="all">All sources</option>
+                  <option value="manual">Manual entry</option>
+                  <option value="mock">Mock/demo data</option>
+                  <option value="imported_csv">Imported CSV</option>
+                  <option value="estimated">Estimated</option>
+                  <option value="platform_api">Future platform API</option>
+                </select>
+              </label>
+            </div>
+
+            <p class="form-message success-message" id="analytics-mock-message" role="status" hidden></p>
+            <div class="media-state loading-state" id="analytics-loading-state" role="status">Loading local analytics...</div>
+            <div class="media-state error-state" id="analytics-error-state" role="alert" hidden>
+              Analytics could not load. Check the local demo adapter and try again.
+            </div>
+            <div class="media-state empty-state" id="analytics-empty-state" hidden>
+              No analytics snapshots match these filters. Add a manual snapshot or generate clearly labeled demo metrics.
+            </div>
+
+            <div class="analytics-summary-grid" id="analytics-summary-grid" aria-label="Analytics summary metrics">
+              <article class="analytics-summary-card"><span>Posts tracked</span><strong id="analytics-summary-posts">0</strong></article>
+              <article class="analytics-summary-card"><span>Impressions</span><strong id="analytics-summary-impressions">0</strong></article>
+              <article class="analytics-summary-card"><span>Views</span><strong id="analytics-summary-views">0</strong></article>
+              <article class="analytics-summary-card"><span>Engagements</span><strong id="analytics-summary-engagements">0</strong></article>
+              <article class="analytics-summary-card"><span>Engagement rate</span><strong id="analytics-summary-engagement-rate">0%</strong></article>
+              <article class="analytics-summary-card"><span>Clicks</span><strong id="analytics-summary-clicks">0</strong></article>
+              <article class="analytics-summary-card"><span>Leads</span><strong id="analytics-summary-leads">0</strong></article>
+              <article class="analytics-summary-card"><span>Lead rate</span><strong id="analytics-summary-lead-rate">0%</strong></article>
+              <article class="analytics-summary-card"><span>Best platform</span><strong id="analytics-summary-best-platform">-</strong></article>
+              <article class="analytics-summary-card"><span>Best content angle</span><strong id="analytics-summary-best-angle">-</strong></article>
+            </div>
+          </section>
+
+          <section class="analytics-breakdown-grid">
+            <section class="workspace-section analytics-panel" aria-labelledby="analytics-platform-heading">
+              <div class="section-header compact-header">
+                <div><h2 id="analytics-platform-heading">Platform breakdown</h2><p>Compare where content earns attention and lead signals.</p></div>
+              </div>
+              <div class="analytics-table-wrap"><table><thead><tr><th>Platform</th><th>Posts</th><th>Impressions / views</th><th>Engagements</th><th>Clicks</th><th>Leads</th><th>Eng. rate</th><th>Lead rate</th></tr></thead><tbody id="analytics-platform-breakdown"></tbody></table></div>
+            </section>
+
+            <section class="workspace-section analytics-panel" aria-labelledby="analytics-goal-heading">
+              <div class="section-header compact-header">
+                <div><h2 id="analytics-goal-heading">Content goal breakdown</h2><p>See which post goals are worth repeating.</p></div>
+              </div>
+              <div class="analytics-table-wrap"><table><thead><tr><th>Goal</th><th>Posts</th><th>Eng. rate</th><th>Lead rate</th><th>Score</th></tr></thead><tbody id="analytics-goal-breakdown"></tbody></table></div>
+            </section>
+
+            <section class="workspace-section analytics-panel" aria-labelledby="analytics-angle-heading">
+              <div class="section-header compact-header">
+                <div><h2 id="analytics-angle-heading">Content angle breakdown</h2><p>Find the themes that resonate with your audience.</p></div>
+              </div>
+              <div class="analytics-table-wrap"><table><thead><tr><th>Angle</th><th>Posts</th><th>Eng. rate</th><th>Lead rate</th><th>Score</th></tr></thead><tbody id="analytics-angle-breakdown"></tbody></table></div>
+            </section>
+          </section>
+
+          <section class="analytics-breakdown-grid ranking-grid">
+            <section class="workspace-section analytics-panel" aria-labelledby="analytics-top-heading">
+              <div class="section-header compact-header">
+                <div><h2 id="analytics-top-heading">Top posts</h2><p>Strong local performance signals to learn from.</p></div>
+              </div>
+              <div class="analytics-post-list" id="analytics-top-posts"></div>
+            </section>
+
+            <section class="workspace-section analytics-panel" aria-labelledby="analytics-weak-heading">
+              <div class="section-header compact-header">
+                <div><h2 id="analytics-weak-heading">Underperforming posts</h2><p>Content that may benefit from a clearer hook, CTA, or angle.</p></div>
+              </div>
+              <div class="analytics-post-list" id="analytics-underperforming-posts"></div>
+            </section>
+          </section>
+
+          <section class="workspace-section analytics-panel" aria-labelledby="analytics-insights-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="analytics-insights-heading">Content insights</h2>
+                <p>Explainable local recommendations based on available manual or demo evidence.</p>
+              </div>
+              <span class="card-status needs-review">Review suggestions</span>
+            </div>
+            <div class="analytics-insight-list" id="analytics-insights"></div>
+          </section>
+
+          <section class="workspace-section analytics-panel" aria-labelledby="analytics-manual-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="analytics-manual-heading">Manual analytics entry</h2>
+                <p>Add a local snapshot after checking a platform yourself. Saved metrics are labeled manual.</p>
+              </div>
+              <span class="card-status local-only">Local entry</span>
+            </div>
+
+            <form class="analytics-manual-form" id="analytics-manual-form" novalidate>
+              <label class="field"><span>Select post</span><select id="analytics-manual-post" required></select></label>
+              <label class="field"><span>Platform</span><select id="analytics-manual-platform" required><option value="facebook">Facebook</option><option value="instagram">Instagram</option><option value="threads">Threads</option><option value="youtube">YouTube Shorts</option><option value="tiktok">TikTok</option><option value="linkedin">LinkedIn</option><option value="x">X</option></select></label>
+              <label class="field"><span>Snapshot date</span><input id="analytics-manual-date" type="date" required /></label>
+              <label class="field"><span>Impressions</span><input id="analytics-manual-impressions" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Reach</span><input id="analytics-manual-reach" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Views</span><input id="analytics-manual-views" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Likes</span><input id="analytics-manual-likes" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Comments</span><input id="analytics-manual-comments" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Shares</span><input id="analytics-manual-shares" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Saves</span><input id="analytics-manual-saves" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Clicks</span><input id="analytics-manual-clicks" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Leads</span><input id="analytics-manual-leads" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Messages</span><input id="analytics-manual-messages" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Calls</span><input id="analytics-manual-calls" type="number" min="0" value="0" /></label>
+              <label class="field"><span>Website clicks</span><input id="analytics-manual-website-clicks" type="number" min="0" value="0" /></label>
+              <label class="field full-width-field"><span>Notes</span><textarea id="analytics-manual-notes" rows="3" placeholder="Optional context for this manually entered snapshot."></textarea></label>
+              <div class="analytics-manual-actions">
+                <p class="form-message success-message" id="analytics-manual-success" role="status" hidden></p>
+                <p class="form-message error-message" id="analytics-manual-error" role="alert" hidden></p>
+                <button class="primary-button" type="submit">Save manual snapshot</button>
+              </div>
+            </form>
+          </section>
+        </section>
+
+        <section class="route-view" id="drafts-view" data-route="drafts" hidden>
+          <header class="topbar">
+            <div>
+              <h1>Drafts</h1>
+              <p>Review, edit, approve, and schedule local draft posts. Scheduling creates local calendar and queue records only.</p>
+            </div>
+          </header>
+
+          <section class="status-strip" aria-label="Draft approval safety status">
+            <div>
+              <span class="status-dot warning" aria-hidden="true"></span>
+              <strong>Human approval</strong>
+              <span>Required before future scheduling</span>
+            </div>
+            <div>
+              <span class="status-dot safe" aria-hidden="true"></span>
+              <strong>Local review only</strong>
+              <span>No platform APIs connected</span>
+            </div>
+            <div>
+              <span class="status-dot blocked" aria-hidden="true"></span>
+              <strong>Approved drafts stay local</strong>
+              <span>No external posting from Drafts</span>
+            </div>
+          </section>
+
+          <section class="workspace-section drafts-workspace" aria-labelledby="drafts-list-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="drafts-list-heading">Approval queue</h2>
+                <p>Approved drafts return to needs review after edits.</p>
+              </div>
+              <span class="card-status mock-mode">Temporary browser adapter</span>
+            </div>
+
+            <div class="drafts-toolbar" aria-label="Draft filters">
+              <label class="field">
+                <span>Approval status</span>
+                <select id="drafts-status-filter">
+                  <option value="all">All statuses</option>
+                  <option value="draft">Draft</option>
+                  <option value="needs_review">Needs review</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="revision_requested">Revision requested</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Platform</span>
+                <select id="drafts-platform-filter">
+                  <option value="all">All platforms</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="threads">Threads</option>
+                  <option value="youtube">YouTube Shorts</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="x">X</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Search caption, headline, or hook</span>
+                <input id="drafts-search" type="search" placeholder="Search drafts..." autocomplete="off" />
+              </label>
+            </div>
+
+            <p class="empty-state" id="drafts-empty" hidden>No drafts saved yet. Generate one from the Generate screen and click "Save to Drafts".</p>
+            <div class="drafts-layout">
+              <div class="draft-list" id="drafts-list" aria-live="polite"></div>
+
+              <aside class="draft-detail-panel" id="drafts-detail" aria-labelledby="draft-detail-heading">
+                <div class="draft-detail-empty" id="drafts-detail-empty">
+                  Select a draft to review details, edit copy, or record an approval decision.
+                </div>
+
+                <form class="draft-detail-form" id="drafts-form" hidden>
+                  <div class="section-header compact-header">
+                    <div>
+                      <h2 id="draft-detail-heading">Draft details</h2>
+                      <p id="draft-detail-summary">Local approval workflow only.</p>
+                    </div>
+                    <span class="result-status" id="draft-detail-status">needs_review</span>
+                  </div>
+
+                  <div class="draft-detail-grid">
+                    <label class="field">
+                      <span>Headline</span>
+                      <input id="draft-edit-headline" type="text" autocomplete="off" />
+                    </label>
+                    <label class="field">
+                      <span>Hook</span>
+                      <input id="draft-edit-hook" type="text" autocomplete="off" />
+                    </label>
+                    <label class="field full-width-field">
+                      <span>Caption</span>
+                      <textarea id="draft-edit-caption" rows="5" required></textarea>
+                    </label>
+                    <label class="field">
+                      <span>Short caption</span>
+                      <textarea id="draft-edit-short-caption" rows="3"></textarea>
+                    </label>
+                    <label class="field">
+                      <span>Long caption</span>
+                      <textarea id="draft-edit-long-caption" rows="3"></textarea>
+                    </label>
+                    <label class="field">
+                      <span>CTA</span>
+                      <input id="draft-edit-cta" type="text" autocomplete="off" />
+                    </label>
+                    <label class="field">
+                      <span>Hashtags, comma-separated</span>
+                      <input id="draft-edit-hashtags" type="text" autocomplete="off" />
+                    </label>
+                    <label class="field">
+                      <span>Alt text</span>
+                      <textarea id="draft-edit-alt-text" rows="3"></textarea>
+                    </label>
+                    <label class="field">
+                      <span>Notes</span>
+                      <textarea id="draft-edit-notes" rows="3"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="draft-actions">
+                    <button class="primary-button" id="draft-save-edits" type="submit">Save edits</button>
+                    <button class="secondary-button" id="draft-approve" type="button">Approve</button>
+                    <button class="secondary-button" id="draft-reject" type="button">Reject</button>
+                    <button class="secondary-button" id="draft-request-revision" type="button">Request revision</button>
+                    <button class="secondary-button" id="draft-archive" type="button">Archive</button>
+                    <button class="secondary-button" id="draft-schedule" type="button" hidden>Schedule</button>
+                  </div>
+
+                  <label class="field">
+                    <span>Decision reason or revision instructions</span>
+                    <textarea id="draft-action-reason" rows="3" placeholder="Optional reason for rejection, archive, or revision request."></textarea>
+                  </label>
+
+                  <p class="form-message success-message" id="draft-action-message" role="status" hidden></p>
+                  <p class="form-message error-message" id="draft-action-error" role="alert" hidden></p>
+
+                  <section class="draft-schedule-panel" id="draft-schedule-panel" aria-labelledby="draft-schedule-heading" hidden>
+                    <div class="section-header compact-header">
+                      <div>
+                        <h2 id="draft-schedule-heading">Schedule approved draft</h2>
+                        <p>Temporary browser scheduling adapter. Scheduling is local-only and does not publish.</p>
+                      </div>
+                      <span class="card-status local-only">Local schedule</span>
+                    </div>
+
+                    <div class="draft-schedule-summary" aria-label="Scheduling summary">
+                      <div><strong>Platform</strong><span id="draft-schedule-platform">-</span></div>
+                      <div><strong>Linked media</strong><span id="draft-schedule-media-count">0</span></div>
+                      <div><strong>Approval status</strong><span id="draft-schedule-approval-status">-</span></div>
+                      <div><strong>Safety status</strong><span id="draft-schedule-safety-status">-</span></div>
+                    </div>
+
+                    <p class="result-caption" id="draft-schedule-caption-preview">Caption preview unavailable.</p>
+
+                    <div class="draft-schedule-form" id="draft-schedule-form">
+                      <div class="form-grid">
+                        <label class="field">
+                          <span>Selected date</span>
+                          <input id="draft-schedule-date" type="date" required />
+                        </label>
+                        <label class="field">
+                          <span>Selected time</span>
+                          <input id="draft-schedule-time" type="time" required />
+                        </label>
+                        <label class="field">
+                          <span>Timezone</span>
+                          <input id="draft-schedule-timezone" type="text" value="America/New_York" required />
+                        </label>
+                        <label class="field full-width-field">
+                          <span>Notes</span>
+                          <textarea id="draft-schedule-notes" rows="3" placeholder="Optional local notes for this scheduled post."></textarea>
+                        </label>
+                      </div>
+
+                      <div class="draft-actions">
+                        <button class="primary-button" id="draft-schedule-confirm" type="button">Confirm schedule</button>
+                        <button class="secondary-button" id="draft-schedule-cancel" type="button">Close</button>
+                        <a class="secondary-button link-button" id="draft-schedule-calendar-link" href="#calendar" hidden>View in Calendar</a>
+                      </div>
+                    </div>
+                  </section>
+
+                  <div class="draft-readonly-grid" aria-label="Read-only draft metadata">
+                    <div><strong>Platform</strong><span id="draft-read-platform">-</span></div>
+                    <div><strong>Brand profile</strong><span id="draft-read-brand">-</span></div>
+                    <div><strong>Content goal</strong><span id="draft-read-goal">-</span></div>
+                    <div><strong>Content angle</strong><span id="draft-read-angle">-</span></div>
+                    <div><strong>Prompt template ID</strong><span id="draft-read-prompt-id">-</span></div>
+                    <div><strong>Prompt version</strong><span id="draft-read-prompt-version">-</span></div>
+                    <div><strong>Generation provider</strong><span id="draft-read-provider">-</span></div>
+                    <div><strong>Created date</strong><span id="draft-read-created">-</span></div>
+                    <div><strong>Score</strong><span id="draft-read-score">-</span></div>
+                  </div>
+
+                  <details class="draft-info-block" open>
+                    <summary>Safety flags</summary>
+                    <div id="draft-safety-flags"></div>
+                  </details>
+                  <details class="draft-info-block">
+                    <summary>Linked media assets</summary>
+                    <div id="draft-linked-media"></div>
+                  </details>
+                  <details class="draft-info-block">
+                    <summary>Prompt metadata</summary>
+                    <pre id="draft-prompt-metadata"></pre>
+                  </details>
+                  <details class="draft-info-block" open>
+                    <summary>Approval history</summary>
+                    <div class="approval-history-list" id="draft-approval-history"></div>
+                  </details>
+                </form>
+              </aside>
+            </div>
+          </section>
+        </section>
+
+      </main>
+    </div>
+    <script src="./settings.js"></script>
+    <script src="./generate.js"></script>
+    <script src="./analytics.js"></script>
+    <script src="./engagement.js"></script>
+  </body>
+</html>
