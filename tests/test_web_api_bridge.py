@@ -33,6 +33,9 @@ class WebApiBridgeTest(unittest.TestCase):
         for route in (
             "/api/analytics/snapshots",
             "/api/analytics/mock",
+            "/api/weekly-reports",
+            "/api/ai-memory/refresh",
+            "/api/ai-memory/",
         ):
             with self.subTest(route=route):
                 self.assertIn(route, self.analytics)

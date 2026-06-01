@@ -8,6 +8,8 @@
 (function () {
   const ANALYTICS_SNAPSHOTS_KEY = "local-social-ai-manager.analyticsSnapshots";
   const ANALYTICS_INSIGHTS_KEY = "local-social-ai-manager.analyticsInsights";
+  const AI_MEMORY_KEY = "local-social-ai-manager.aiMemory";
+  const WEEKLY_REPORTS_KEY = "local-social-ai-manager.weeklyReports";
   const DRAFTS_KEY = "local-social-ai-manager.drafts";
   const SETTINGS_KEY = "local-social-ai-manager.settings";
   const MANUAL_SOURCE = "manual";
@@ -71,6 +73,20 @@
     return dateOnly(date);
   }
 
+  function currentWeekStart() {
+    const date = new Date();
+    date.setHours(12, 0, 0, 0);
+    const mondayOffset = (date.getDay() + 6) % 7;
+    date.setDate(date.getDate() - mondayOffset);
+    return dateOnly(date);
+  }
+
+  function addDays(dateValue, days) {
+    const date = new Date(`${dateValue}T12:00:00`);
+    date.setDate(date.getDate() + days);
+    return dateOnly(date);
+  }
+
   function formatNumber(value) {
     return new Intl.NumberFormat("en-US").format(Number(value) || 0);
   }
@@ -81,6 +97,20 @@
 
   function formatStatus(value) {
     return String(value || "-").replace(/_/g, " ");
+  }
+
+  function formatEvidence(value) {
+    if (!value) return "No evidence summary yet.";
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+      const dataPoints = value.dataPoints ?? value.data_points;
+      const source = value.source || value.platform || value.angle;
+      const parts = [];
+      if (dataPoints != null) parts.push(`${dataPoints} data point(s)`);
+      if (source) parts.push(`signal: ${source}`);
+      return parts.join("; ") || "Local evidence references stored.";
+    }
+    return String(value);
   }
 
   function toMetric(value) {
@@ -344,6 +374,64 @@
 
   function saveAnalyticsInsights(insights) {
     window.localStorage.setItem(ANALYTICS_INSIGHTS_KEY, JSON.stringify(insights));
+  }
+
+  function defaultAIMemory() {
+    return [
+      {
+        id: "analytics-memory-demo-transformations",
+        memoryType: "performance_learning",
+        title: "Transformation posts are a useful idea to test",
+        summary: "The current local demo evidence suggests testing another honest before-and-after post.",
+        confidence: "low",
+        source: "mock",
+        status: "active",
+      },
+    ];
+  }
+
+  function loadAIMemory() {
+    const stored = safeParse(window.localStorage.getItem(AI_MEMORY_KEY), null);
+    if (!Array.isArray(stored)) {
+      const seeded = defaultAIMemory();
+      saveAIMemory(seeded);
+      return seeded;
+    }
+    return stored;
+  }
+
+  function saveAIMemory(memories) {
+    window.localStorage.setItem(AI_MEMORY_KEY, JSON.stringify(memories));
+  }
+
+  function defaultWeeklyReports() {
+    const weekStartDate = currentWeekStart();
+    return [
+      {
+        id: "analytics-weekly-report-demo",
+        weekStartDate,
+        weekEndDate: addDays(weekStartDate, 6),
+        summary: "Clearly fake mock weekly summary for local UI review.",
+        wins: ["Demo metrics show one transformation-post idea worth testing."],
+        concerns: ["This report contains mock/demo data. Do not treat it as real performance."],
+        recommendations: ["Add manual analytics after real posting to improve future comparisons."],
+        generatedBy: "ai_mock",
+      },
+    ];
+  }
+
+  function loadWeeklyReports() {
+    const stored = safeParse(window.localStorage.getItem(WEEKLY_REPORTS_KEY), null);
+    if (!Array.isArray(stored)) {
+      const seeded = defaultWeeklyReports();
+      saveWeeklyReports(seeded);
+      return seeded;
+    }
+    return stored;
+  }
+
+  function saveWeeklyReports(reports) {
+    window.localStorage.setItem(WEEKLY_REPORTS_KEY, JSON.stringify(reports));
   }
 
   function snapshotIdentity(snapshot) {
@@ -611,7 +699,7 @@
           <p>${escapeHtml(insight.summary)}</p>
           <div class="analytics-insight-meta">
             <span>Confidence: ${escapeHtml(insight.confidence)}</span>
-            <span>Evidence: ${escapeHtml(insight.evidence)}</span>
+            <span>Evidence: ${escapeHtml(formatEvidence(insight.evidence))}</span>
           </div>
           <p><strong>Recommended action:</strong> ${escapeHtml(insight.recommendedAction)}</p>
           <div class="analytics-insight-actions">
@@ -648,6 +736,144 @@
     ));
     saveAnalyticsInsights(insights);
     renderAnalyticsInsights();
+  }
+
+  function renderLearningReview() {
+    const reports = loadWeeklyReports()
+      .slice()
+      .sort((a, b) => String(b.weekStartDate || "").localeCompare(String(a.weekStartDate || "")));
+    getElement("analytics-weekly-reports").innerHTML = reports.length
+      ? reports.slice(0, 6).map((report) => `
+        <article class="analytics-learning-card">
+          <div class="card-heading">
+            <h4>${escapeHtml(report.weekStartDate || "-")} to ${escapeHtml(report.weekEndDate || "-")}</h4>
+            <span class="card-status ${report.generatedBy === "ai_mock" ? "mock-mode" : "local-only"}">${escapeHtml(formatStatus(report.generatedBy))}</span>
+          </div>
+          <p>${escapeHtml(report.summary || "No summary available.")}</p>
+          <p><strong>Wins:</strong> ${escapeHtml((report.wins || []).join(" "))}</p>
+          <p><strong>Concerns:</strong> ${escapeHtml((report.concerns || []).join(" "))}</p>
+          <p><strong>Next:</strong> ${escapeHtml((report.recommendations || []).join(" "))}</p>
+        </article>
+      `).join("")
+      : '<p class="media-state empty-state">No weekly reports yet. Generate one from local analytics.</p>';
+
+    const memories = loadAIMemory();
+    getElement("analytics-ai-memory").innerHTML = memories.length
+      ? memories.map((memory) => `
+        <article class="analytics-learning-card">
+          <div class="card-heading">
+            <h4>${escapeHtml(memory.title || "Local learning")}</h4>
+            <span class="card-status ${memory.source === "mock" ? "mock-mode" : "local-only"}">${escapeHtml(formatStatus(memory.status))}</span>
+          </div>
+          <p>${escapeHtml(memory.summary || memory.content || "")}</p>
+          <div class="analytics-insight-meta">
+            <span>Type: ${escapeHtml(formatStatus(memory.memoryType))}</span>
+            <span>Confidence: ${escapeHtml(memory.confidence || "low")}</span>
+            <span>Source: ${escapeHtml(formatStatus(memory.source || "local_learning"))}</span>
+          </div>
+          ${memory.status === "active" ? `<button class="secondary-button" type="button" data-ai-memory-archive="${escapeHtml(memory.id)}">Archive memory</button>` : ""}
+        </article>
+      `).join("")
+      : '<p class="media-state empty-state">No AI memory yet. Refresh from local evidence after reviewing analytics or drafts.</p>';
+  }
+
+  function setLearningMessage(message) {
+    const output = getElement("analytics-learning-message");
+    output.hidden = !message;
+    output.textContent = message;
+  }
+
+  function browserWeeklyReport(weekStartDate) {
+    const start = new Date(`${weekStartDate}T12:00:00`);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    const records = performanceRecords(filteredSnapshots());
+    const summary = computeAnalyticsSummary(records);
+    return {
+      id: `browser-weekly-report-${weekStartDate}`,
+      weekStartDate,
+      weekEndDate: dateOnly(end),
+      summary: `Local browser demo summary: ${summary.posts} post(s), ${summary.engagements} engagement signal(s), ${summary.clicks} click(s), and ${summary.leads} lead signal(s).`,
+      wins: summary.posts ? [`Current best platform idea to test: ${formatStatus(summary.bestPlatform)}.`] : ["No clear win yet."],
+      concerns: ["Direct-file mode uses local demo data. Run the localhost bridge for durable SQLite reports."],
+      recommendations: ["Add manual analytics after real posting to strengthen future comparisons."],
+      generatedBy: "ai_mock",
+    };
+  }
+
+  async function generateWeeklyReport() {
+    const weekStartDate = getElement("analytics-learning-week-start").value;
+    if (!weekStartDate) {
+      setLearningMessage("Choose a week start date first.");
+      return;
+    }
+    try {
+      const bridge = activeApiBridge();
+      if (bridge) {
+        await bridge.request("/api/weekly-reports", {
+          method: "POST",
+          body: {
+            brand_profile_id: currentBrandProfileId(),
+            week_start_date: weekStartDate,
+          },
+        });
+        await bridge.sync();
+        setLearningMessage("Weekly report generated from local SQLite analytics. Mock inputs remain clearly labeled.");
+      } else {
+        const report = browserWeeklyReport(weekStartDate);
+        const reports = loadWeeklyReports().filter((item) => item.id !== report.id);
+        saveWeeklyReports([report, ...reports]);
+        setLearningMessage("Weekly report generated in direct-file demo mode. Use the localhost bridge for durable SQLite reports.");
+      }
+      renderLearningReview();
+    } catch (error) {
+      setLearningMessage(error.message || "Weekly report could not be generated.");
+    }
+  }
+
+  async function refreshAIMemory() {
+    try {
+      const bridge = activeApiBridge();
+      if (bridge) {
+        const result = await bridge.request("/api/ai-memory/refresh", {
+          method: "POST",
+          body: { brand_profile_id: currentBrandProfileId() },
+        });
+        await bridge.sync();
+        setLearningMessage(`AI memory refreshed from local evidence: ${result.createdCount} created, ${result.updatedCount} updated.`);
+      } else {
+        saveAIMemory(loadAIMemory());
+        setLearningMessage("Direct-file demo memory is already refreshed. Use the localhost bridge for evidence-backed SQLite memory.");
+      }
+      renderLearningReview();
+    } catch (error) {
+      setLearningMessage(error.message || "AI memory could not be refreshed.");
+    }
+  }
+
+  async function archiveAIMemory(event) {
+    const button = event.target.closest("[data-ai-memory-archive]");
+    if (!button) return;
+    try {
+      const bridge = activeApiBridge();
+      if (bridge) {
+        await bridge.request(`/api/ai-memory/${encodeURIComponent(button.dataset.aiMemoryArchive)}/archive`, {
+          method: "POST",
+          body: {},
+        });
+        await bridge.sync();
+      } else {
+        saveAIMemory(loadAIMemory().map((memory) => (
+          memory.id === button.dataset.aiMemoryArchive
+            ? { ...memory, status: "archived", updatedAt: new Date().toISOString() }
+            : memory
+        )));
+      }
+      setLearningMessage("AI memory archived locally. It was not deleted.");
+      renderLearningReview();
+    } catch (error) {
+      setLearningMessage(error.message || "AI memory could not be archived.");
+    }
   }
 
   function populateManualPostOptions() {
@@ -750,6 +976,7 @@
       renderContentBreakdown("analytics-angle-breakdown", records, "contentAngle");
       renderPostRankings(records);
       renderAnalyticsInsights();
+      renderLearningReview();
       populateManualPostOptions();
     } catch (error) {
       console.error("analytics: render failed", error);
@@ -767,6 +994,9 @@
     getElement("analytics-manual-form").addEventListener("submit", handleManualSubmit);
     getElement("analytics-manual-post").addEventListener("change", syncManualPlatform);
     getElement("analytics-insights").addEventListener("click", handleAnalyticsInsightAction);
+    getElement("analytics-generate-weekly-report").addEventListener("click", generateWeeklyReport);
+    getElement("analytics-refresh-memory").addEventListener("click", refreshAIMemory);
+    getElement("analytics-ai-memory").addEventListener("click", archiveAIMemory);
     const generateMockButton = getElement("analytics-generate-mock");
     generateMockButton.hidden = !mockAnalyticsAllowed();
     generateMockButton.addEventListener("click", async () => {
@@ -791,6 +1021,7 @@
       }
     });
     getElement("analytics-manual-date").value = dateOnly(new Date());
+    getElement("analytics-learning-week-start").value = currentWeekStart();
     renderAnalytics();
     window.addEventListener("local-api-ready", renderAnalytics);
     window.addEventListener("hashchange", () => {

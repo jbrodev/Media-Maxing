@@ -49,10 +49,19 @@ Optional source filter:
 python -m scripts.services.weekly_reports --database data/app.sqlite --brand-profile-id demo-brand-brightside-exterior-care --week-start-date 2026-06-08 --source manual
 ```
 
+## Review Reports In The App
+
+Open Analytics and use **Weekly review and AI memory**. Choose a week start
+date, then select **Generate weekly report**. When the localhost bridge is
+running, the report is generated from SQLite-backed local analytics and
+persists after refresh.
+
+The same panel lets the owner refresh evidence-backed AI memory and archive a
+memory record without deleting it.
+
 ## Local-First Limits
 
 - No real analytics APIs are called.
 - Reports are only as reliable as their labeled local inputs.
 - Mock reports are for demo and development only.
 - Small samples remain clearly described as ideas to test, not guarantees.
-- A browser report view is future UI work.

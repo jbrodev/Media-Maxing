@@ -38,6 +38,10 @@ class WebSettingsScreenTest(unittest.TestCase):
         self.assertIn("localStorage", script)
         self.assertIn("autonomous_content_engine", script)
         self.assertIn("approval before publishing", script)
+        self.assertLess(
+            script.index("function routeFromHash"),
+            script.index("function setupRouting"),
+        )
 
 
 if __name__ == "__main__":

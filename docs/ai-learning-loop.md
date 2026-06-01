@@ -65,6 +65,10 @@ python -m scripts.services.ai_memory --database data/app.sqlite --brand-profile-
 
 The command prints the refreshed records and explicit `external_ai_calls=false` and `external_platform_calls=false` markers.
 
-## Future UI Work
+## Review Memory In The App
 
-A later UI can let the owner review, archive, and supersede memory records.
+Open Analytics and use **Weekly review and AI memory**. The owner can refresh
+memory from local evidence, inspect the active summaries used by future draft
+generation, and archive a record without deleting it.
+
+Superseding a memory record remains future work.

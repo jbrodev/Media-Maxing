@@ -3739,6 +3739,13 @@
     getElement("social-setup-later").addEventListener("click", chooseAddKeysLater);
   }
 
+  function routeFromHash() {
+    const route = window.location.hash.replace("#", "") || "home";
+    return supportedRoutes.includes(route)
+      ? route
+      : "home";
+  }
+
   function setupRouting() {
     const links = document.querySelectorAll(".nav-link");
     const views = document.querySelectorAll(".route-view");
@@ -3759,13 +3766,6 @@
           link.removeAttribute("aria-current");
         }
       });
-    }
-
-    function routeFromHash() {
-      const route = window.location.hash.replace("#", "") || "home";
-      return supportedRoutes.includes(route)
-        ? route
-        : "home";
     }
 
     window.addEventListener("hashchange", () => {

@@ -322,6 +322,13 @@ class LocalApiApplication:
             return AIMemoryService(self.database_path).refresh_from_local_evidence(
                 brand_profile_id=_required(body, "brand_profile_id"),
             )
+        if (
+            len(segments) == 4
+            and segments[:2] == ["api", "ai-memory"]
+            and segments[3] == "archive"
+            and method == "POST"
+        ):
+            return AIMemoryService(self.database_path).archive_memory(segments[2])
         if segments == ["api", "weekly-reports"]:
             reports = WeeklyReportService(self.database_path)
             if method == "GET":

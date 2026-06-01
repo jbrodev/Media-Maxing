@@ -91,6 +91,11 @@ class LocalApiServerTest(unittest.TestCase):
             "/api/ai-memory/refresh",
             body={"brand_profile_id": DEMO_BRAND_ID},
         ).body
+        archived_memory = app.dispatch(
+            "POST",
+            f"/api/ai-memory/{memory['memories'][0]['id']}/archive",
+            body={},
+        ).body
         report = app.dispatch(
             "POST",
             "/api/weekly-reports",
@@ -105,6 +110,7 @@ class LocalApiServerTest(unittest.TestCase):
         self.assertEqual(brand["tagline"], "Careful local exterior service")
         self.assertEqual(snapshot["source"], "manual")
         self.assertGreaterEqual(memory["createdCount"], 1)
+        self.assertEqual(archived_memory["status"], "archived")
         self.assertEqual(report["weekStartDate"], "2026-06-08")
         self.assertEqual(reloaded["settings"]["appName"], "Owner Local Manager")
         self.assertEqual(

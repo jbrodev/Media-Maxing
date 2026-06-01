@@ -105,6 +105,11 @@ The app should not delete memory automatically. A user should be able to review,
 
 `scripts/services/ai_memory.py` now promotes explainable insights and local review decisions into idempotent, evidence-backed memory. `scripts/services/weekly_reports.py` creates one deterministic local report per brand and week. See `docs/ai-learning-loop.md` and `docs/weekly-reports.md`.
 
+The Analytics screen includes a **Weekly review and AI memory** panel. Through
+the localhost bridge, the owner can generate a persisted weekly report,
+refresh evidence-backed memory, review the summaries used in future draft
+generation, and archive memory records locally.
+
 ## Demo Data
 
 The seed script creates one clearly fake `mock` snapshot, one aggregate performance row, one mock import audit, one low-confidence content insight, one low-confidence AI memory record, and one `ai_mock` weekly report.

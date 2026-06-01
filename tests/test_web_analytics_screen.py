@@ -42,6 +42,12 @@ class WebAnalyticsScreenTest(unittest.TestCase):
             "analytics-top-posts",
             "analytics-underperforming-posts",
             "analytics-insights",
+            "analytics-learning-week-start",
+            "analytics-generate-weekly-report",
+            "analytics-refresh-memory",
+            "analytics-learning-message",
+            "analytics-weekly-reports",
+            "analytics-ai-memory",
             "analytics-manual-form",
             "analytics-manual-post",
             "analytics-manual-platform",
@@ -92,6 +98,10 @@ class WebAnalyticsScreenTest(unittest.TestCase):
             "renderAnalytics",
             "renderAnalyticsInsights",
             "handleAnalyticsInsightAction",
+            "renderLearningReview",
+            "generateWeeklyReport",
+            "refreshAIMemory",
+            "archiveAIMemory",
             "setupAnalytics",
         ):
             with self.subTest(function_name=function_name):
@@ -114,6 +124,9 @@ class WebAnalyticsScreenTest(unittest.TestCase):
             ".analytics-post-card",
             ".analytics-insight-list",
             ".analytics-insight-card",
+            ".analytics-learning-toolbar",
+            ".analytics-learning-grid",
+            ".analytics-learning-card",
             ".analytics-manual-form",
         ):
             with self.subTest(class_name=class_name):

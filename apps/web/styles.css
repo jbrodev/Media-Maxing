@@ -2265,6 +2265,61 @@ tbody tr:last-child td {
   font-size: 12px;
 }
 
+.analytics-learning-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+}
+
+.analytics-learning-toolbar .field {
+  min-width: 180px;
+}
+
+.analytics-learning-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.analytics-learning-grid h3 {
+  margin: 0 0 10px;
+  color: #243141;
+  font-size: 15px;
+}
+
+.analytics-learning-list {
+  display: grid;
+  gap: 10px;
+}
+
+.analytics-learning-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.analytics-learning-card h4,
+.analytics-learning-card p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.analytics-learning-card h4 {
+  color: #17202a;
+  font-size: 14px;
+}
+
+.analytics-learning-card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .analytics-manual-form {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2617,6 +2672,7 @@ tbody tr:last-child td {
     .analytics-toolbar,
     .analytics-summary-grid,
     .analytics-breakdown-grid,
+    .analytics-learning-grid,
     .analytics-manual-form,
     .engagement-toolbar,
     .engagement-summary-grid,

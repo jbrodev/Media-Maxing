@@ -308,6 +308,7 @@ Current status:
 - Local AI memory service now promotes explainable analytics insights and local draft/reply review decisions into idempotent evidence-backed memory without storing private engagement text.
 - Local weekly report service now upserts one deterministic report per brand and week, preserving mock/manual provenance and labeling mock-only reports as `ai_mock`.
 - The localhost Generate screen now runs through the Python content-generation service, loading Brand Brain, selected media metadata, app settings, and bounded active AI-memory summaries from SQLite before the user explicitly saves drafts.
+- The Analytics screen now exposes weekly report generation and reviewable AI-memory summaries, including local refresh and archive actions through the SQLite bridge.
 
 Batch 4 docs:
 

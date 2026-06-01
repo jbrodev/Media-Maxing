@@ -1899,6 +1899,37 @@
             <div class="analytics-insight-list" id="analytics-insights"></div>
           </section>
 
+          <section class="workspace-section analytics-panel" aria-labelledby="analytics-learning-heading">
+            <div class="section-header compact-header">
+              <div>
+                <h2 id="analytics-learning-heading">Weekly review and AI memory</h2>
+                <p>Review local performance summaries and the evidence-backed guidance used for future drafts.</p>
+              </div>
+              <span class="card-status needs-review">Owner review</span>
+            </div>
+
+            <div class="analytics-learning-toolbar">
+              <label class="field">
+                <span>Week starting</span>
+                <input id="analytics-learning-week-start" type="date" required />
+              </label>
+              <button class="secondary-button" id="analytics-generate-weekly-report" type="button">Generate weekly report</button>
+              <button class="secondary-button" id="analytics-refresh-memory" type="button">Refresh AI memory</button>
+            </div>
+            <p class="form-message success-message" id="analytics-learning-message" role="status" hidden></p>
+
+            <div class="analytics-learning-grid">
+              <section aria-labelledby="analytics-weekly-reports-heading">
+                <h3 id="analytics-weekly-reports-heading">Weekly reports</h3>
+                <div class="analytics-learning-list" id="analytics-weekly-reports"></div>
+              </section>
+              <section aria-labelledby="analytics-ai-memory-heading">
+                <h3 id="analytics-ai-memory-heading">Active AI memory</h3>
+                <div class="analytics-learning-list" id="analytics-ai-memory"></div>
+              </section>
+            </div>
+          </section>
+
           <section class="workspace-section analytics-panel" aria-labelledby="analytics-manual-heading">
             <div class="section-header compact-header">
               <div>
