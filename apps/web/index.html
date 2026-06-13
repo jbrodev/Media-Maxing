@@ -1907,6 +1907,7 @@
               <div class="topbar-actions">
                 <button class="secondary-button" id="generate-clear-results" type="button" hidden>Clear preview</button>
                 <button class="primary-button" id="generate-save-drafts" type="button" disabled>Save to Drafts</button>
+                <a class="secondary-button link-button" id="generate-review-drafts" href="#drafts" hidden>Review in Drafts →</a>
               </div>
             </div>
 
@@ -1954,51 +1955,62 @@
             <div class="section-header compact-header">
               <div>
                 <h2 id="calendar-heading">Scheduled content</h2>
-                <p id="calendar-range-label">Loading date range...</p>
+                <p>Local-only scheduling. Click any post to view details or reschedule.</p>
               </div>
               <span class="card-status mock-mode">Local Calendar adapter</span>
             </div>
 
             <div class="calendar-toolbar" aria-label="Calendar controls">
-              <div class="calendar-view-toggle" role="group" aria-label="Calendar view">
-                <button class="secondary-button active" id="calendar-view-week" type="button" data-calendar-view="week">Week</button>
-                <button class="secondary-button" id="calendar-view-month" type="button" data-calendar-view="month">Month</button>
-                <button class="secondary-button" id="calendar-view-list" type="button" data-calendar-view="list">List</button>
-              </div>
-
-              <div class="calendar-date-nav" role="group" aria-label="Calendar date navigation">
-                <button class="secondary-button" id="calendar-prev" type="button">Previous</button>
+              <div class="calendar-date-nav" id="calendar-date-nav" role="group" aria-label="Date range navigation">
+                <button class="secondary-button calendar-nav-arrow" id="calendar-prev" type="button" aria-label="Previous range">&lsaquo;</button>
                 <button class="secondary-button" id="calendar-today" type="button">Today</button>
-                <button class="secondary-button" id="calendar-next" type="button">Next</button>
+                <button class="secondary-button calendar-nav-arrow" id="calendar-next" type="button" aria-label="Next range">&rsaquo;</button>
+                <strong class="calendar-range-inline" id="calendar-range-label">Loading date range...</strong>
               </div>
 
-              <label class="field">
-                <span>Platform</span>
-                <select id="calendar-platform-filter">
-                  <option value="all">All platforms</option>
-                  <option value="facebook">Facebook</option>
-                  <option value="instagram">Instagram</option>
-                  <option value="threads">Threads</option>
-                  <option value="youtube">YouTube Shorts</option>
-                  <option value="tiktok">TikTok</option>
-                  <option value="linkedin">LinkedIn</option>
-                  <option value="x">X</option>
+              <div class="calendar-toolbar-right">
+                <select class="calendar-view-select" id="calendar-view-select" aria-label="Calendar view">
+                  <option value="week">Week view</option>
+                  <option value="month">Month view</option>
+                  <option value="list">Agenda</option>
                 </select>
-              </label>
 
-              <label class="field">
-                <span>Status</span>
-                <select id="calendar-status-filter">
-                  <option value="all">All statuses</option>
-                  <option value="scheduled">Scheduled</option>
-                  <option value="queued">Queued</option>
-                  <option value="missed">Missed</option>
-                  <option value="canceled">Canceled</option>
-                  <option value="completed">Completed</option>
-                  <option value="failed">Failed</option>
-                  <option value="needs_attention">Needs attention</option>
-                </select>
-              </label>
+                <div class="calendar-filter-wrap">
+                  <button class="secondary-button calendar-filter-toggle" id="calendar-filter-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="calendar-filter-popover">
+                    Filters
+                    <span class="calendar-filter-badge" id="calendar-filter-badge" hidden>0</span>
+                  </button>
+                  <div class="calendar-filter-popover" id="calendar-filter-popover" role="group" aria-label="Calendar filters" hidden>
+                    <label class="field">
+                      <span>Platform</span>
+                      <select id="calendar-platform-filter">
+                        <option value="all">All platforms</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="threads">Threads</option>
+                        <option value="youtube">YouTube Shorts</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="x">X</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Status</span>
+                      <select id="calendar-status-filter">
+                        <option value="all">All statuses</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="queued">Queued</option>
+                        <option value="missed">Missed</option>
+                        <option value="canceled">Canceled</option>
+                        <option value="completed">Completed</option>
+                        <option value="failed">Failed</option>
+                        <option value="needs_attention">Needs attention</option>
+                      </select>
+                    </label>
+                    <button class="calendar-filter-clear" id="calendar-filter-clear" type="button">Clear filters</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="media-state loading-state" id="calendar-loading-state" role="status">
@@ -2014,15 +2026,17 @@
             </div>
 
             <div class="calendar-layout">
-              <div>
-                <div class="calendar-grid" id="calendar-grid" aria-live="polite"></div>
-                <div class="calendar-list" id="calendar-list" aria-live="polite" hidden></div>
-              </div>
+              <div class="calendar-grid" id="calendar-grid" aria-live="polite"></div>
+              <div class="calendar-list" id="calendar-list" aria-live="polite" hidden></div>
+            </div>
 
-              <aside class="calendar-detail-panel" id="calendar-detail-panel" aria-labelledby="calendar-detail-heading">
-                <div class="calendar-detail-empty" id="calendar-detail-empty">
-                  Select a scheduled post to inspect the local schedule snapshot, queue status, and safety details.
-                </div>
+            <div class="calendar-modal-overlay" id="calendar-detail-modal" hidden>
+              <div class="calendar-modal" role="dialog" aria-modal="true" aria-labelledby="calendar-detail-heading">
+                <button class="calendar-modal-close" id="calendar-detail-close" type="button" aria-label="Close scheduled post detail">&times;</button>
+                <div class="calendar-detail-panel" id="calendar-detail-panel">
+                  <div class="calendar-detail-empty" id="calendar-detail-empty" hidden>
+                    Select a scheduled post to inspect the local schedule snapshot, queue status, and safety details.
+                  </div>
 
                 <div class="calendar-detail-content" id="calendar-detail-content" hidden>
                   <div class="section-header compact-header">
@@ -2085,7 +2099,8 @@
                     </div>
                   </form>
                 </div>
-              </aside>
+                </div>
+              </div>
             </div>
           </section>
         </section>
@@ -2856,61 +2871,76 @@
                     <span class="result-status" id="draft-detail-status">needs_review</span>
                   </div>
 
-                  <div class="draft-detail-grid">
-                    <label class="field">
-                      <span>Headline</span>
-                      <input id="draft-edit-headline" type="text" autocomplete="off" />
-                    </label>
-                    <label class="field">
-                      <span>Hook</span>
-                      <input id="draft-edit-hook" type="text" autocomplete="off" />
-                    </label>
+                  <div class="draft-primary">
                     <label class="field full-width-field">
                       <span>Caption</span>
                       <textarea id="draft-edit-caption" rows="5" required></textarea>
                     </label>
-                    <label class="field">
-                      <span>Short caption</span>
-                      <textarea id="draft-edit-short-caption" rows="3"></textarea>
-                    </label>
-                    <label class="field">
-                      <span>Long caption</span>
-                      <textarea id="draft-edit-long-caption" rows="3"></textarea>
-                    </label>
-                    <label class="field">
-                      <span>CTA</span>
-                      <input id="draft-edit-cta" type="text" autocomplete="off" />
-                    </label>
-                    <label class="field">
-                      <span>Hashtags, comma-separated</span>
-                      <input id="draft-edit-hashtags" type="text" autocomplete="off" />
-                    </label>
-                    <label class="field">
-                      <span>Alt text</span>
-                      <textarea id="draft-edit-alt-text" rows="3"></textarea>
-                    </label>
-                    <label class="field">
-                      <span>Notes</span>
-                      <textarea id="draft-edit-notes" rows="3"></textarea>
-                    </label>
+                    <div class="draft-primary-row">
+                      <label class="field">
+                        <span>Headline</span>
+                        <input id="draft-edit-headline" type="text" autocomplete="off" />
+                      </label>
+                      <label class="field">
+                        <span>Hook</span>
+                        <input id="draft-edit-hook" type="text" autocomplete="off" />
+                      </label>
+                    </div>
                   </div>
 
-                  <div class="draft-actions">
-                    <button class="primary-button" id="draft-save-edits" type="submit">Save edits</button>
-                    <button class="secondary-button" id="draft-approve" type="button">Approve</button>
-                    <button class="secondary-button" id="draft-reject" type="button">Reject</button>
-                    <button class="secondary-button" id="draft-request-revision" type="button">Request revision</button>
-                    <button class="secondary-button" id="draft-archive" type="button">Archive</button>
-                    <button class="secondary-button" id="draft-schedule" type="button" hidden>Schedule</button>
+                  <details class="draft-section">
+                    <summary>
+                      <span class="draft-section-title">More copy &amp; formatting</span>
+                      <span class="draft-section-hint">Short/long caption, CTA, hashtags, alt text, notes</span>
+                    </summary>
+                    <div class="draft-section-body">
+                      <div class="draft-detail-grid">
+                        <label class="field">
+                          <span>Short caption</span>
+                          <textarea id="draft-edit-short-caption" rows="3"></textarea>
+                        </label>
+                        <label class="field">
+                          <span>Long caption</span>
+                          <textarea id="draft-edit-long-caption" rows="3"></textarea>
+                        </label>
+                        <label class="field">
+                          <span>CTA</span>
+                          <input id="draft-edit-cta" type="text" autocomplete="off" />
+                        </label>
+                        <label class="field">
+                          <span>Hashtags, comma-separated</span>
+                          <input id="draft-edit-hashtags" type="text" autocomplete="off" />
+                        </label>
+                        <label class="field">
+                          <span>Alt text</span>
+                          <textarea id="draft-edit-alt-text" rows="3"></textarea>
+                        </label>
+                        <label class="field">
+                          <span>Notes</span>
+                          <textarea id="draft-edit-notes" rows="3"></textarea>
+                        </label>
+                      </div>
+                    </div>
+                  </details>
+
+                  <div class="draft-decision">
+                    <div class="draft-actions">
+                      <button class="primary-button" id="draft-save-edits" type="submit">Save edits</button>
+                      <button class="secondary-button" id="draft-approve" type="button">Approve</button>
+                      <button class="secondary-button" id="draft-reject" type="button">Reject</button>
+                      <button class="secondary-button" id="draft-request-revision" type="button">Request revision</button>
+                      <button class="secondary-button" id="draft-archive" type="button">Archive</button>
+                      <button class="secondary-button" id="draft-schedule" type="button" hidden>Schedule</button>
+                    </div>
+
+                    <label class="field">
+                      <span>Decision reason or revision instructions</span>
+                      <textarea id="draft-action-reason" rows="2" placeholder="Optional reason for rejection, archive, or revision request."></textarea>
+                    </label>
+
+                    <p class="form-message success-message" id="draft-action-message" role="status" hidden></p>
+                    <p class="form-message error-message" id="draft-action-error" role="alert" hidden></p>
                   </div>
-
-                  <label class="field">
-                    <span>Decision reason or revision instructions</span>
-                    <textarea id="draft-action-reason" rows="3" placeholder="Optional reason for rejection, archive, or revision request."></textarea>
-                  </label>
-
-                  <p class="form-message success-message" id="draft-action-message" role="status" hidden></p>
-                  <p class="form-message error-message" id="draft-action-error" role="alert" hidden></p>
 
                   <section class="draft-schedule-panel" id="draft-schedule-panel" aria-labelledby="draft-schedule-heading" hidden>
                     <div class="section-header compact-header">
@@ -2958,33 +2988,40 @@
                     </div>
                   </section>
 
-                  <div class="draft-readonly-grid" aria-label="Read-only draft metadata">
-                    <div><strong>Platform</strong><span id="draft-read-platform">-</span></div>
-                    <div><strong>Brand profile</strong><span id="draft-read-brand">-</span></div>
-                    <div><strong>Content goal</strong><span id="draft-read-goal">-</span></div>
-                    <div><strong>Content angle</strong><span id="draft-read-angle">-</span></div>
-                    <div><strong>Prompt template ID</strong><span id="draft-read-prompt-id">-</span></div>
-                    <div><strong>Prompt version</strong><span id="draft-read-prompt-version">-</span></div>
-                    <div><strong>Generation provider</strong><span id="draft-read-provider">-</span></div>
-                    <div><strong>Created date</strong><span id="draft-read-created">-</span></div>
-                    <div><strong>Score</strong><span id="draft-read-score">-</span></div>
-                  </div>
+                  <details class="draft-section">
+                    <summary>
+                      <span class="draft-section-title">Draft info &amp; metadata</span>
+                    </summary>
+                    <div class="draft-section-body">
+                      <div class="draft-readonly-grid" aria-label="Read-only draft metadata">
+                        <div><strong>Platform</strong><span id="draft-read-platform">-</span></div>
+                        <div><strong>Brand profile</strong><span id="draft-read-brand">-</span></div>
+                        <div><strong>Content goal</strong><span id="draft-read-goal">-</span></div>
+                        <div><strong>Content angle</strong><span id="draft-read-angle">-</span></div>
+                        <div><strong>Prompt template ID</strong><span id="draft-read-prompt-id">-</span></div>
+                        <div><strong>Prompt version</strong><span id="draft-read-prompt-version">-</span></div>
+                        <div><strong>Generation provider</strong><span id="draft-read-provider">-</span></div>
+                        <div><strong>Created date</strong><span id="draft-read-created">-</span></div>
+                        <div><strong>Score</strong><span id="draft-read-score">-</span></div>
+                      </div>
+                    </div>
+                  </details>
 
-                  <details class="draft-info-block" open>
-                    <summary>Safety flags</summary>
-                    <div id="draft-safety-flags"></div>
+                  <details class="draft-section" id="draft-safety-section">
+                    <summary><span class="draft-section-title">Safety flags</span></summary>
+                    <div class="draft-section-body"><div id="draft-safety-flags"></div></div>
                   </details>
-                  <details class="draft-info-block">
-                    <summary>Linked media assets</summary>
-                    <div id="draft-linked-media"></div>
+                  <details class="draft-section">
+                    <summary><span class="draft-section-title">Linked media assets</span></summary>
+                    <div class="draft-section-body"><div id="draft-linked-media"></div></div>
                   </details>
-                  <details class="draft-info-block">
-                    <summary>Prompt metadata</summary>
-                    <pre id="draft-prompt-metadata"></pre>
+                  <details class="draft-section">
+                    <summary><span class="draft-section-title">Approval history</span></summary>
+                    <div class="draft-section-body"><div class="approval-history-list" id="draft-approval-history"></div></div>
                   </details>
-                  <details class="draft-info-block" open>
-                    <summary>Approval history</summary>
-                    <div class="approval-history-list" id="draft-approval-history"></div>
+                  <details class="draft-section">
+                    <summary><span class="draft-section-title">Prompt metadata</span></summary>
+                    <div class="draft-section-body"><pre id="draft-prompt-metadata"></pre></div>
                   </details>
                 </form>
               </aside>
@@ -2995,6 +3032,7 @@
       </main>
     </div>
     <script src="./api-client.js"></script>
+    <script src="./nav-reorder.js"></script>
     <script src="./settings.js"></script>
     <script src="./generate.js"></script>
     <script src="./analytics.js"></script>

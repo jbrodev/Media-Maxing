@@ -5240,6 +5240,42 @@
     `;
   }
 
+  function renderCalendarAgenda(posts) {
+    if (!posts.length) {
+      return "";
+    }
+    const groups = new Map();
+    posts.forEach((post) => {
+      const key = new Date(post.scheduledFor).toISOString().slice(0, 10);
+      if (!groups.has(key)) {
+        groups.set(key, []);
+      }
+      groups.get(key).push(post);
+    });
+    return Array.from(groups.values())
+      .map(
+        (items) => `
+          <section class="calendar-agenda-day">
+            <h3 class="calendar-agenda-date">${escapeHtml(formatDate(items[0].scheduledFor))}</h3>
+            <div class="calendar-agenda-items">${items.map(calendarCardMarkup).join("")}</div>
+          </section>
+        `
+      )
+      .join("");
+  }
+
+  function updateCalendarFilterBadge() {
+    const badge = getElement("calendar-filter-badge");
+    if (!badge) {
+      return;
+    }
+    const platform = getElement("calendar-platform-filter")?.value || "all";
+    const status = getElement("calendar-status-filter")?.value || "all";
+    const active = (platform !== "all" ? 1 : 0) + (status !== "all" ? 1 : 0);
+    badge.textContent = String(active);
+    badge.hidden = active === 0;
+  }
+
   function calendarDaysForView() {
     if (calendarState.view === "week") {
       const start = startOfWeek(calendarState.cursorDate);
@@ -5259,9 +5295,7 @@
     if (calendarState.view === "list") {
       grid.hidden = true;
       list.hidden = false;
-      list.innerHTML = posts.length
-        ? posts.map(calendarCardMarkup).join("")
-        : "";
+      list.innerHTML = renderCalendarAgenda(posts);
       return;
     }
 
@@ -5312,14 +5346,17 @@
     const post = selectedCalendarPost();
     const empty = getElement("calendar-detail-empty");
     const content = getElement("calendar-detail-content");
+    const modal = getElement("calendar-detail-modal");
     if (!empty || !content) {
       return;
     }
     if (!post) {
       empty.hidden = false;
       content.hidden = true;
+      if (modal) modal.hidden = true;
       return;
     }
+    if (modal) modal.hidden = false;
     const queue = findQueueItemForPost(post);
     const metadata = post.scheduleMetadata || {};
     empty.hidden = true;
@@ -5368,17 +5405,14 @@
       loading.hidden = false;
       error.hidden = true;
       range.textContent = formatCalendarRange();
-      document.querySelectorAll("[data-calendar-view]").forEach((button) => {
-        const isActive = button.dataset.calendarView === calendarState.view;
-        button.classList.toggle("active", isActive);
-        button.setAttribute("aria-pressed", isActive ? "true" : "false");
-      });
+      const viewSelect = getElement("calendar-view-select");
+      if (viewSelect) viewSelect.value = calendarState.view;
+      const dateNav = getElement("calendar-date-nav");
+      if (dateNav) dateNav.classList.toggle("is-hidden", calendarState.view === "list");
+      updateCalendarFilterBadge();
       const posts = filteredCalendarPosts();
       if (calendarState.selectedPostId && !loadScheduledPosts().some((post) => post.id === calendarState.selectedPostId)) {
         calendarState.selectedPostId = null;
-      }
-      if (!calendarState.selectedPostId && posts.length) {
-        calendarState.selectedPostId = posts[0].id;
       }
       renderCalendarGrid(posts);
       empty.hidden = posts.length > 0;
@@ -5396,6 +5430,14 @@
     calendarState.selectedPostId = postId;
     setCalendarMessage("", "");
     renderCalendar();
+  }
+
+  function closeCalendarDetail() {
+    calendarState.selectedPostId = null;
+    setCalendarMessage("", "");
+    const modal = getElement("calendar-detail-modal");
+    if (modal) modal.hidden = true;
+    renderCalendarDetail();
   }
 
   function persistUpdatedCalendarPost(updatedPost, action, notes, changedFields) {
@@ -5598,11 +5640,9 @@
     }
     renderCalendar();
 
-    document.querySelectorAll("[data-calendar-view]").forEach((button) => {
-      button.addEventListener("click", () => {
-        calendarState.view = button.dataset.calendarView;
-        renderCalendar();
-      });
+    getElement("calendar-view-select").addEventListener("change", (event) => {
+      calendarState.view = event.target.value;
+      renderCalendar();
     });
     getElement("calendar-prev").addEventListener("click", () => {
       const nextDate = new Date(calendarState.cursorDate);
@@ -5630,6 +5670,34 @@
     });
     getElement("calendar-platform-filter").addEventListener("change", renderCalendar);
     getElement("calendar-status-filter").addEventListener("change", renderCalendar);
+
+    const filterToggle = getElement("calendar-filter-toggle");
+    const filterPopover = getElement("calendar-filter-popover");
+    if (filterToggle && filterPopover) {
+      filterToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const willOpen = filterPopover.hidden;
+        filterPopover.hidden = !willOpen;
+        filterToggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      });
+      document.addEventListener("click", (event) => {
+        if (filterPopover.hidden) return;
+        if (filterPopover.contains(event.target) || filterToggle.contains(event.target)) return;
+        filterPopover.hidden = true;
+        filterToggle.setAttribute("aria-expanded", "false");
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !filterPopover.hidden) {
+          filterPopover.hidden = true;
+          filterToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+    getElement("calendar-filter-clear").addEventListener("click", () => {
+      getElement("calendar-platform-filter").value = "all";
+      getElement("calendar-status-filter").value = "all";
+      renderCalendar();
+    });
     getElement("calendar-grid").addEventListener("click", (event) => {
       const card = event.target.closest("[data-calendar-post-id]");
       if (card) selectCalendarPost(card.dataset.calendarPostId);
@@ -5651,6 +5719,15 @@
         event.preventDefault();
         selectCalendarPost(card.dataset.calendarPostId);
       }
+    });
+    getElement("calendar-detail-close").addEventListener("click", closeCalendarDetail);
+    getElement("calendar-detail-modal").addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) closeCalendarDetail();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      const modal = getElement("calendar-detail-modal");
+      if (modal && !modal.hidden) closeCalendarDetail();
     });
     getElement("calendar-reschedule-form").addEventListener("submit", rescheduleSelectedPost);
     getElement("calendar-cancel-button").addEventListener("click", cancelSelectedPost);

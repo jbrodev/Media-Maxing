@@ -592,6 +592,8 @@
     const emptyNote = $("generate-results-empty");
     const clearBtn = $("generate-clear-results");
     const saveBtn = $("generate-save-drafts");
+    const reviewLink = $("generate-review-drafts");
+    if (reviewLink) reviewLink.hidden = true;
     if (!container || !emptyNote) return;
     container.innerHTML = "";
 
@@ -816,6 +818,8 @@
     $("draft-safety-flags").innerHTML = draft.safetyFlags.length
       ? `<ul class="safety-flag-list">${draft.safetyFlags.map((flag) => `<li class="safety-flag">${escapeHtml(flag)}</li>`).join("")}</ul>`
       : '<p class="result-flags none">No safety flags recorded.</p>';
+    const safetySection = $("draft-safety-section");
+    if (safetySection) safetySection.open = draft.safetyFlags.length > 0;
     $("draft-linked-media").innerHTML = draft.mediaAssetIds.length
       ? `<ul class="safety-flag-list">${draft.mediaAssetIds.map((id) => `<li>${escapeHtml(mediaLabel(id))}</li>`).join("")}</ul>`
       : '<p class="result-meta">No linked media assets.</p>';
@@ -970,10 +974,16 @@
     const bridge = activeApiBridge();
     if (bridge) {
       try {
+        const bridgeActions = {
+          approved: "approve",
+          rejected: "reject",
+          revision_requested: "request_revision",
+          archived: "archive",
+        };
         await bridge.request(`/api/drafts/${encodeURIComponent(draft.id)}/approval`, {
           method: "POST",
           body: {
-            action: action === "revision_requested" ? "request_revision" : action,
+            action: bridgeActions[action] || action,
             reason: notes || "",
           },
         });
@@ -1417,8 +1427,10 @@
         await bridge.sync();
         setSaveStatus(
           "success",
-          `Saved ${additions.length} draft${additions.length === 1 ? "" : "s"} to local SQLite. Drafts list updated.`,
+          `Saved ${additions.length} draft${additions.length === 1 ? "" : "s"} to local SQLite. Review them in Drafts.`,
         );
+        const reviewLink = $("generate-review-drafts");
+        if (reviewLink) reviewLink.hidden = false;
         renderDraftsList();
       } catch (error) {
         setSaveStatus("error", error.message || "Generated drafts could not be saved to local SQLite.");
@@ -1484,8 +1496,10 @@
     });
     setSaveStatus(
       "success",
-      `Saved ${additions.length} draft${additions.length === 1 ? "" : "s"} locally. Drafts list updated.`
+      `Saved ${additions.length} draft${additions.length === 1 ? "" : "s"} locally. Review them in Drafts.`
     );
+    const reviewLink = $("generate-review-drafts");
+    if (reviewLink) reviewLink.hidden = false;
     renderDraftsList();
   }
 
