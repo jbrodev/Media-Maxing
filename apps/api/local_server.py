@@ -329,6 +329,8 @@ class LocalApiApplication:
                 )
             if action == "needs-attention":
                 return calendar.mark_needs_attention(scheduled_post_id)
+            if action == "fix-caption":
+                return calendar.trim_caption_to_limit(scheduled_post_id)
         if len(segments) == 4 and segments[:2] == ["api", "publish-queue"] and method == "POST":
             queue_item_id, action = segments[2], segments[3]
             if action == "preflight":

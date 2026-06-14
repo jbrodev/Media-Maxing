@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from scripts.ai.platform_limits import caption_limit_for, trim_to_limit
 from scripts.db.drafts import SavedGeneratedDraft, get_generated_draft
 from scripts.db.init_db import initialize_database, resolve_database_path
 from scripts.db.scheduling_models import SCHEDULED_POST_STATUSES
@@ -485,6 +486,66 @@ class CalendarSchedulingService:
                 actor_label=actor_label,
                 notes="Scheduled post notes updated locally.",
                 changed_fields={"userNotes": cleaned_notes},
+                created_at=now,
+            )
+            connection.commit()
+        return self._require_scheduled_post(current.id)
+
+    def trim_caption_to_limit(
+        self,
+        scheduled_post_id: str,
+        *,
+        actor_label: str = "local_user",
+    ) -> ScheduledPost:
+        """Trim a scheduled post's caption so it fits the platform limit.
+
+        Local-only auto-fix for the preflight ``caption_too_long`` error. Trims
+        the scheduled caption snapshot (and the source draft's caption) to the
+        platform's max length on a word boundary. No-op when already within
+        the limit. Never publishes.
+        """
+        current = self._require_scheduled_post(scheduled_post_id)
+        limit = caption_limit_for(current.platform)
+        caption = current.captionSnapshot or ""
+        if len(caption) <= limit:
+            return current
+        trimmed = trim_to_limit(caption, limit)
+        now = _now_utc()
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            connection.row_factory = sqlite3.Row
+            connection.execute(
+                """
+                UPDATE scheduled_posts
+                SET caption_snapshot = ?,
+                    updated_at = ?
+                WHERE id = ?
+                """,
+                (trimmed, now, current.id),
+            )
+            connection.execute(
+                """
+                UPDATE generated_posts
+                SET caption = ?,
+                    updated_at = ?
+                WHERE id = ?
+                """,
+                (trimmed, now, current.generatedPostId),
+            )
+            self._append_log(
+                connection,
+                entity_id=current.id,
+                action="caption_trimmed_to_limit",
+                actor_label=actor_label,
+                notes=(
+                    f"Caption trimmed from {len(caption)} to {len(trimmed)} "
+                    f"characters to fit the {current.platform} limit of {limit}."
+                ),
+                changed_fields={
+                    "previousCaptionLength": len(caption),
+                    "captionLength": len(trimmed),
+                    "platform": current.platform,
+                    "maxCaptionLength": limit,
+                },
                 created_at=now,
             )
             connection.commit()

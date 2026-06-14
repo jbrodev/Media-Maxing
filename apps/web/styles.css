@@ -2805,6 +2805,64 @@ tbody tr:last-child td {
   gap: 8px;
 }
 
+.preflight-items {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preflight-item {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.preflight-items.is-error .preflight-item {
+  border-color: #f0c7c2;
+  background: #fdf3f2;
+}
+
+.preflight-items.is-warning .preflight-item {
+  border-color: #f0dcb0;
+  background: #fdf8ec;
+}
+
+.preflight-title {
+  color: #17202a;
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.preflight-items.is-error .preflight-title {
+  color: #842029;
+}
+
+.preflight-detail {
+  color: #4a5567;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.preflight-hint {
+  color: #5b6470;
+  font-size: 12px;
+}
+
+.preflight-fix-button,
+.preflight-fix-link {
+  justify-self: start;
+  min-height: 32px;
+  margin-top: 2px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
 /*
  * Connected Accounts
  */

@@ -13,6 +13,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from typing import Any, Iterable
 
+from scripts.ai.platform_limits import caption_limit_for
 from scripts.ai.providers.base import AIProvider
 from scripts.ai.schemas import (
     AIStructuredGenerationRequest,
@@ -313,6 +314,11 @@ class MockProvider(AIProvider):
 
         drafts: list[PlatformPostDraft] = []
         for index, platform in enumerate(input.selected_platforms):
+            # Never produce a caption longer than the platform allows. Respect a
+            # tighter caller-supplied cap when one is set.
+            platform_caption_limit = caption_limit_for(platform)
+            if options.max_caption_length:
+                platform_caption_limit = min(platform_caption_limit, options.max_caption_length)
             caption = _build_caption(
                 platform=platform,
                 business_name=business_name,
@@ -323,16 +329,16 @@ class MockProvider(AIProvider):
                 goal=input.content_goal,
                 angle=input.content_angle,
                 instructions=input.user_instructions,
-                max_caption_length=options.max_caption_length,
+                max_caption_length=platform_caption_limit,
             )
             variants: list[CaptionVariant] = []
             if options.number_of_variants > 0:
                 variant_styles = ("short", "warm", "direct")
-                for index in range(options.number_of_variants):
-                    style = variant_styles[index % len(variant_styles)]
-                    suffix = f"({style} variation #{index + 1})"
+                for variant_index in range(options.number_of_variants):
+                    style = variant_styles[variant_index % len(variant_styles)]
+                    suffix = f"({style} variation #{variant_index + 1})"
                     variants.append(
-                        _build_variant(style, caption, suffix, options.max_caption_length)
+                        _build_variant(style, caption, suffix, platform_caption_limit)
                     )
             hashtags = (
                 _build_hashtags(
@@ -356,7 +362,10 @@ class MockProvider(AIProvider):
                     headline=f"{business_name}: {input.content_angle.replace('_', ' ').title()}",
                     caption=caption,
                     short_caption=_build_short_caption(caption),
-                    long_caption=_build_long_caption(caption, input.content_angle),
+                    long_caption=_maybe_truncate(
+                        _build_long_caption(caption, input.content_angle),
+                        platform_caption_limit,
+                    ),
                     hashtags=hashtags,
                     media_asset_ids=list(media_ids),
                     caption_variants=variants,

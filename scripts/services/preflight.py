@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from scripts.ai.platform_limits import caption_limit_for
 from scripts.db.init_db import initialize_database, resolve_database_path
 from scripts.db.settings import load_app_settings
 from scripts.connectors.registry import get_connector
@@ -45,7 +46,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="Instagram",
         mediaRequired=True,
         supportedMediaTypes=("image", "video"),
-        maxCaptionLength=2200,
+        maxCaptionLength=caption_limit_for("instagram"),
         hashtagRecommendation="Allowed; a small relevant set is recommended.",
         altTextRecommendation="Recommended when media is present.",
         videoRequired=False,
@@ -59,7 +60,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="Facebook",
         mediaRequired=False,
         supportedMediaTypes=("image", "video"),
-        maxCaptionLength=63206,
+        maxCaptionLength=caption_limit_for("facebook"),
         hashtagRecommendation="Optional; keep them light.",
         altTextRecommendation="Recommended when media is present.",
         videoRequired=False,
@@ -73,7 +74,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="Threads",
         mediaRequired=False,
         supportedMediaTypes=("image", "video"),
-        maxCaptionLength=500,
+        maxCaptionLength=caption_limit_for("threads"),
         hashtagRecommendation="Optional; concise text is preferred.",
         altTextRecommendation="Recommended when media is present.",
         videoRequired=False,
@@ -87,7 +88,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="TikTok",
         mediaRequired=True,
         supportedMediaTypes=("video",),
-        maxCaptionLength=2200,
+        maxCaptionLength=caption_limit_for("tiktok"),
         hashtagRecommendation="Allowed; keep relevant.",
         altTextRecommendation="Not primary for MVP; captions and accessibility metadata are future work.",
         videoRequired=True,
@@ -101,7 +102,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="YouTube Shorts",
         mediaRequired=True,
         supportedMediaTypes=("video",),
-        maxCaptionLength=5000,
+        maxCaptionLength=caption_limit_for("youtube"),
         hashtagRecommendation="Allowed in description; keep relevant.",
         altTextRecommendation="Not primary for Shorts MVP.",
         videoRequired=True,
@@ -115,7 +116,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="LinkedIn",
         mediaRequired=False,
         supportedMediaTypes=("image", "video"),
-        maxCaptionLength=3000,
+        maxCaptionLength=caption_limit_for("linkedin"),
         hashtagRecommendation="Recommended but limited; use a small professional set.",
         altTextRecommendation="Recommended when media is present.",
         videoRequired=False,
@@ -129,7 +130,7 @@ PLATFORM_REQUIREMENT_MATRIX: dict[str, PlatformRequirement] = {
         label="X",
         mediaRequired=False,
         supportedMediaTypes=("image", "video"),
-        maxCaptionLength=280,
+        maxCaptionLength=caption_limit_for("x"),
         hashtagRecommendation="Optional; short text budget.",
         altTextRecommendation="Recommended when media is present.",
         videoRequired=False,
@@ -322,7 +323,7 @@ class PreflightValidationService:
         elif len(caption) > requirement.maxCaptionLength:
             errors.append(
                 f"caption_too_long: Caption is {len(caption)} characters; "
-                f"{requirement.label} placeholder max is {requirement.maxCaptionLength}."
+                f"{requirement.label} allows up to {requirement.maxCaptionLength}."
             )
 
         schedule_metadata = _decode_json(scheduled_row["schedule_metadata_json"], {})
